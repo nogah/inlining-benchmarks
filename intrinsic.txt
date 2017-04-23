@@ -1,0 +1,1 @@
+The Java source of Integer.bitCount() is still compiled with C1 and C2 but it is the intrinsified version that is used in the inlined code.
