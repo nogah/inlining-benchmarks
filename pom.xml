@@ -33,7 +33,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>murex.pop</groupId>
+    <groupId>org.example</groupId>
     <artifactId>inlining-benchmarks</artifactId>
     <version>1.17.5</version>
     <packaging>jar</packaging>
