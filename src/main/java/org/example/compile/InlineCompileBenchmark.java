@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.CompilerControl;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
@@ -18,9 +19,10 @@ The goal of the benchmark to see if Hotspot inlines before or after the callee i
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 5, time = 3, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1, jvmArgsAppend = {
+      "-XX:-UseCompressedClassPointers",
       "-XX:-UseCompressedOops",
       "-XX:+UnlockDiagnosticVMOptions",
       "-XX:+TraceClassLoading",
@@ -37,20 +39,43 @@ public class InlineCompileBenchmark {
    private Long l2 = Long.valueOf(159343);
 
    @Benchmark
-   public long subtractInteger() {
+   public long benchmarkSubtractInteger() {
       return Subtract.subtract(i1, i2);
    }
 
    @Benchmark
-   public long subtractLong() {
-      return Subtract.subtract(
-            l1,
-            l2);
+   public long benchmarkSubtractLong() {
+      return Subtract.subtract(l1, l2);
    }
 
    @Benchmark
-   public long subtractBoth() {
-      return Subtract.subtract(i1, i2) + Subtract.subtract(l1, l2);
+   public long benchmarkSubtractBoth() {
+      return Subtract.subtract(i1, i2) * Subtract.subtract(l1, l2);
+   }
+
+   @Benchmark
+   public long benchmarkSubtractIntegerNoInline() {
+      return subtractInt();
+   }
+
+   @Benchmark
+   public long benchmarkSubtractLongNoInline() {
+      return subtractLong(l1, l2);
+   }
+
+   @Benchmark
+   public long benchmarkSubtractBothNoInline() {
+      return subtractInt() * subtractLong(l1, l2);
+   }
+
+   @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+   private long subtractLong(Number l1, Number l2) {
+      return Subtract.subtract(l1, l2);
+   }
+
+   @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+   private long subtractInt() {
+      return Subtract.subtract(i1, i2);
    }
 
 }
