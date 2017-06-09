@@ -1,0 +1,1 @@
+java -jar target/benchmarks.jar Inline -jvmArgsAppend '-XX:-UseCompressedClassPointers -XX:-UseCompressedOops -XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:CompileCommand=print,*IntrinsicBenchmark.* -XX:CompileCommand=print,*Integer.bitCount'

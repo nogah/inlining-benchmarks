@@ -47,13 +47,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
-@Fork(value = 1, jvmArgsAppend = {
-        "-XX:+UnlockDiagnosticVMOptions",
-        "-XX:+TraceClassLoading",
-        "-XX:+LogCompilation",
-        "-XX:CompileCommand=print,*IntrinsicBenchmark.*",
-        "-XX:CompileCommand=print,*Integer.bitCount"
-})
+@Fork(value = 1)
 @State(Scope.Thread)
 public class IntrinsicBenchmark {
 
@@ -69,7 +63,7 @@ public class IntrinsicBenchmark {
         return bitCount(x);
     }
 
-    // Identical to the code in java.lang.Integer.bitCount(int i);
+    // Copy/paste from java.lang.Integer.bitCount(int i);
     private int bitCount(int i) {
         i = i - ((i >>> 1) & 0x55555555);
         i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);

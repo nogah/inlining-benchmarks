@@ -1,0 +1,75 @@
+# Run complete. Total time: 00:05:06
+
+Benchmark                                        Mode  Cnt   Score   Error  Units
+
+InlineMixBenchmark.subtractInteger               avgt   10   2.752 ± 0.101  ns/op
+InlineMixBenchmark.subtractLong                  avgt   10   2.652 ± 0.045  ns/op
+InlineMixBenchmark.subtractShort                 avgt   10   2.689 ± 0.044  ns/op
+InlineMixBenchmark.subtractShortInt              avgt   10   3.731 ± 0.173  ns/op
+InlineMixBenchmark.subtractShortLong             avgt   10   3.669 ± 0.157  ns/op
+InlineMixBenchmark.subtractIntLong               avgt   10   3.698 ± 0.188  ns/op
+InlineMixBenchmark.subtractShortIntLong          avgt   10   4.647 ± 0.176  ns/op
+
+InlineMixBenchmark.noInlineSubtractInteger       avgt   10   4.102 ± 0.093  ns/op
+InlineMixBenchmark.noInlineSubtractLong          avgt   10   4.157 ± 0.271  ns/op
+InlineMixBenchmark.noInlineSubtractShort         avgt   10   4.071 ± 0.009  ns/op
+InlineMixBenchmark.noInlineSubtractShortInt      avgt   10   8.100 ± 0.318  ns/op
+InlineMixBenchmark.noInlineSubtractShortLong     avgt   10   8.275 ± 0.565  ns/op
+InlineMixBenchmark.noInlineSubtractIntLong       avgt   10   7.593 ± 0.102  ns/op
+InlineMixBenchmark.noInlineSubtractShortIntLong  avgt   10  17.998 ± 0.579  ns/op
+
+InlineShortBenchmark.subtractShort               avgt   10   2.770 ± 0.227  ns/op
+InlineIntBenchmark.subtractInteger               avgt   10   2.695 ± 0.128  ns/op
+InlineLongBenchmark.subtractLong                 avgt   10   2.670 ± 0.107  ns/op
+InlineShortBenchmark.noInlineSubtractShort       avgt   10   4.219 ± 0.133  ns/op
+InlineIntBenchmark.noInlineSubtractInteger       avgt   10   4.184 ± 0.167  ns/op
+InlineLongBenchmark.noInlineSubtractLong         avgt   10   4.131 ± 0.194  ns/op
+
+
+# Run complete. Total time: 00:07:42
+
+Benchmark                                                 Mode  Cnt   Score   Error  Units
+
+# Subtract::subtract is inlined -> each callsite has its own compiled code
+InlineMixBenchmark.subtractShort                          avgt   10   2.747 ± 0.388  ns/op
+InlineMixBenchmark.subtractInteger                        avgt   10   2.692 ± 0.204  ns/op
+InlineMixBenchmark.subtractLong                           avgt   10   2.651 ± 0.156  ns/op
+InlineMixBenchmark.subtractShortInt                       avgt   10   3.604 ± 0.002  ns/op
+InlineMixBenchmark.subtractShortLong                      avgt   10   3.709 ± 0.364  ns/op
+InlineMixBenchmark.subtractIntLong                        avgt   10   3.642 ± 0.265  ns/op
+InlineMixBenchmark.subtractShortIntLong                   avgt   10   4.701 ± 0.395  ns/op
+
+# Subtract::subtract: don't inline, instance of Long
+# -> with 3 types, virtual call is still inlined thanks to type profiling -> less costly
+InlineMixBenchmark.noInlineNoVirtualSubtractShort         avgt   10   4.403 ± 0.363  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractInteger       avgt   10   4.399 ± 0.360  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractLong          avgt   10   4.208 ± 0.388  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractShortInt      avgt   10   9.574 ± 0.625  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractShortLong     avgt   10   6.712 ± 0.563  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractIntLong       avgt   10   6.750 ± 0.598  ns/op
+InlineMixBenchmark.noInlineNoVirtualSubtractShortIntLong  avgt   10  10.627 ± 1.116  ns/op
+
+# Subtract::subtract: don't inline
+# -> with 3 types, virtual call can't be inlined (megamorphic callsite) -> costly
+InlineMixBenchmark.noInlineSubtractShort                  avgt   10   4.169 ± 0.343  ns/op
+InlineMixBenchmark.noInlineSubtractInteger                avgt   10   4.352 ± 0.397  ns/op
+InlineMixBenchmark.noInlineSubtractLong                   avgt   10   4.163 ± 0.350  ns/op
+InlineMixBenchmark.noInlineSubtractShortInt               avgt   10   8.495 ± 0.699  ns/op
+InlineMixBenchmark.noInlineSubtractShortLong              avgt   10   8.430 ± 0.207  ns/op
+InlineMixBenchmark.noInlineSubtractIntLong                avgt   10   7.899 ± 0.679  ns/op
+InlineMixBenchmark.noInlineSubtractShortIntLong           avgt   10  19.142 ± 1.556  ns/op
+
+
+
+# individual
+InlineShortBenchmark.subtractShort                        avgt   10   2.771 ± 0.233  ns/op
+InlineIntBenchmark.subtractInteger                        avgt   10   2.648 ± 0.173  ns/op
+InlineLongBenchmark.subtractLong                          avgt   10   2.756 ± 0.235  ns/op
+
+InlineShortBenchmark.noInlineNoVirtualSubtractShort       avgt   10   4.375 ± 0.367  ns/op
+InlineIntBenchmark.noInlineNoVirtualSubtractInteger       avgt   10   4.540 ± 0.440  ns/op
+InlineLongBenchmark.noInlineNoVirtualSubtractLong         avgt   10   4.034 ± 0.016  ns/op
+
+InlineIntBenchmark.noInlineSubtractInteger                avgt   10   4.225 ± 0.363  ns/op
+InlineLongBenchmark.noInlineSubtractLong                  avgt   10   4.110 ± 0.265  ns/op
+InlineShortBenchmark.noInlineSubtractShort                avgt   10   4.240 ± 0.385  ns/op
