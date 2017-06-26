@@ -2,3 +2,77 @@ Benchmark                             Mode  Cnt  Score   Error  Units
 DirectInliningBenchmark.directGet     avgt   10  1.831 ± 0.006  ns/op
 DirectInliningBenchmark.inlinedGet    avgt   10  1.845 ± 0.007  ns/op
 DirectInliningBenchmark.uninlinedGet  avgt   10  3.075 ± 0.018  ns/op
+
+
+
+# directGet
+  6.48%    6.92%    0x00007f5378dc4940: mov    0x40(%rsp),%r10
+  2.45%    2.75%    0x00007f5378dc4945: mov    0xc(%r10),%r10d    ;*getfield i
+                                                                  ; - org.example.DirectInliningBenchmark::directGet@1 (line 19)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_directGet_jmhTest::directGet_avgt_jmhStub@17 (line 186)
+  2.52%    2.67%    0x00007f5378dc4949: mov    0xc(%r12,%r10,8),%edx  ;*getfield value
+                                                                  ; - java.lang.Integer::intValue@1 (line 893)
+                                                                  ; - org.example.DirectInliningBenchmark::directGet@4 (line 19)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_directGet_jmhTest::directGet_avgt_jmhStub@17 (line 186)
+
+# inlinedGet
+  6.43%    6.85%    0x00007eff051fe3c0: mov    0x40(%rsp),%r10
+  2.35%    2.61%    0x00007eff051fe3c5: mov    0xc(%r10),%r10d    ;*getfield i
+                                                                  ; - org.example.DirectInliningBenchmark::inlinedGet@2 (line 24)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_inlinedGet_jmhTest::inlinedGet_avgt_jmhStub@17 (line 186)
+  2.23%    2.63%    0x00007eff051fe3c9: mov    0xc(%r12,%r10,8),%edx  ;*getfield value
+                                                                  ; - java.lang.Integer::intValue@1 (line 893)
+                                                                  ; - org.example.DirectInliningBenchmark::inlinableGet@1 (line 28)
+                                                                  ; - org.example.DirectInliningBenchmark::inlinedGet@5 (line 24)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_inlinedGet_jmhTest::inlinedGet_avgt_jmhStub@17 (line 186)
+
+# uninlinedGet
+  1.29%    1.29%    0x00007fbb551fa270: mov    0x40(%rsp),%r10
+  3.28%    2.96%    0x00007fbb551fa275: mov    0xc(%r10),%r11d
+  2.48%    2.41%    0x00007fbb551fa279: mov    %r11,%rdx
+  0.63%    0.72%    0x00007fbb551fa27c: shl    $0x3,%rdx          ;*getfield i
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinedGet@2 (line 33)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_uninlinedGet_jmhTest::uninlinedGet_avgt_jmhStub@17 (line 186)
+  1.41%    1.20%    0x00007fbb551fa280: mov    0x40(%rsp),%rsi
+  3.37%    3.35%    0x00007fbb551fa285: xchg   %ax,%ax
+  2.37%    2.53%    0x00007fbb551fa287: callq  0x00007fbb55046020  ; OopMap{[48]=Oop [56]=Oop [64]=Oop [0]=Oop off=172}
+                                                                  ;*invokespecial uninlinableGet
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinedGet@5 (line 33)
+                                                                  ; - org.example.generated.DirectInliningBenchmark_uninlinedGet_jmhTest::uninlinedGet_avgt_jmhStub@17 (line 186)
+                                                                  ;   {optimized virtual_call}
+
+....[Hottest Region 3]..............................................................................
+C2, level 4, org.example.DirectInliningBenchmark::uninlinableGet, version 449 (26 bytes)
+
+                    # parm0:    rdx:rdx   = &apos;java/lang/Integer&apos;
+                    #           [sp+0x20]  (sp of caller)
+                    0x00007fbb551f10e0: mov    0x8(%rsi),%r10d
+                    0x00007fbb551f10e4: shl    $0x3,%r10
+                    0x00007fbb551f10e8: cmp    %r10,%rax
+                    0x00007fbb551f10eb: jne    0x00007fbb55045e20  ;   {runtime_call}
+                    0x00007fbb551f10f1: xchg   %ax,%ax
+                    0x00007fbb551f10f4: nopl   0x0(%rax,%rax,1)
+                    0x00007fbb551f10fc: xchg   %ax,%ax
+                  [Verified Entry Point]
+  2.09%    1.97%    0x00007fbb551f1100: mov    %eax,-0x14000(%rsp)
+  5.26%    6.42%    0x00007fbb551f1107: push   %rbp
+  0.71%    0.96%    0x00007fbb551f1108: sub    $0x10,%rsp         ;*synchronization entry
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinableGet@-1 (line 38)
+  4.60%    5.41%    0x00007fbb551f110c: mov    0xc(%rdx),%eax     ;*getfield value
+                                                                  ; - java.lang.Integer::intValue@1 (line 893)
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinableGet@1 (line 38)
+                                                                  ; implicit exception: dispatches to 0x00007fbb551f111b
+  3.00%    2.99%    0x00007fbb551f110f: add    $0x10,%rsp
+  0.89%    0.85%    0x00007fbb551f1113: pop    %rbp
+  2.35%    3.19%    0x00007fbb551f1114: test   %eax,0x16704ee6(%rip)        # 0x00007fbb6b8f6000
+                                                                  ;   {poll_return}
+  3.29%    3.75%    0x00007fbb551f111a: retq
+                    0x00007fbb551f111b: mov    $0xfffffff6,%esi
+                    0x00007fbb551f1120: xchg   %ax,%ax
+                    0x00007fbb551f1123: callq  0x00007fbb550051a0  ; OopMap{off=72}
+                                                                  ;*invokevirtual intValue
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinableGet@1 (line 38)
+                                                                  ;   {runtime_call}
+                    0x00007fbb551f1128: callq  0x00007fbb6a6018c0  ;*invokevirtual intValue
+                                                                  ; - org.example.DirectInliningBenchmark::uninlinableGet@1 (line 38)
+                                                                  ;   {runtime_call}

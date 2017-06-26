@@ -1,0 +1,2079 @@
+$ java -jar target/benchmarks.jar IndexOf --prof perfasm
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfCharBenchmark.indexOfChar
+# Parameters: (targetChar = s)
+
+# Run progress: 0.00% complete, ETA 00:02:00
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 4.322 ns/op
+# Warmup Iteration   2: 3.888 ns/op
+# Warmup Iteration   3: 4.198 ns/op
+# Warmup Iteration   4: 3.878 ns/op
+# Warmup Iteration   5: 3.904 ns/op
+Iteration   1: 4.027 ns/op
+Iteration   2: 3.994 ns/op
+Iteration   3: 3.915 ns/op
+Iteration   4: 3.890 ns/op
+Iteration   5: 3.897 ns/op
+Iteration   6: 3.901 ns/op
+Iteration   7: 3.896 ns/op
+Iteration   8: 3.902 ns/op
+Iteration   9: 3.949 ns/op
+Iteration  10: 3.959 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar":
+  3.933 ±(99.9%) 0.072 ns/op [Average]
+  (min, avg, max) = (3.890, 3.933, 4.027), stdev = 0.047
+  CI (99.9%): [3.861, 4.005] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar:·asm":
+PrintAssembly processed: 150139 total address lines.
+Perf output processed (skipped 6.593 seconds):
+ Column 1: cycles (10205 events)
+ Column 2: instructions (10198 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 470 (218 bytes)
+
+                         0x00007f75f9207cc4: mov    0x40(%rsp),%rbx
+                         0x00007f75f9207cc9: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                                                                       ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+                                                                       ; implicit exception: dispatches to 0x00007f75f9207f29
+                         0x00007f75f9207cd1: test   %r11d,%r11d
+                         0x00007f75f9207cd4: jne    0x00007f75f9207e09  ;*ifeq
+                                                                       ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+                         0x00007f75f9207cda: mov    $0x1,%ebp
+                  ╭      0x00007f75f9207cdf: jmp    0x00007f75f9207d14
+                  │  ↗   0x00007f75f9207ce1: add    $0x2,%edx
+  2.08%    2.51%  │ ↗│   0x00007f75f9207ce4: inc    %edx               ;*invokevirtual indexOf
+                  │ ││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                  │ ││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                  │ ││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.75%    0.80%  │↗││   0x00007f75f9207ce6: mov    %rbx,0x40(%rsp)
+  1.50%    2.10%  ││││   0x00007f75f9207ceb: mov    (%rsp),%rsi
+  1.89%    2.72%  ││││   0x00007f75f9207cef: callq  0x00007f75f9046020  ; OopMap{[64]=Oop [72]=Oop [80]=Oop [0]=Oop off=340}
+                  ││││                                                 ;*invokevirtual consume
+                  ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@20 (line 186)
+                  ││││                                                 ;   {optimized virtual_call}
+  2.00%    1.86%  ││││   0x00007f75f9207cf4: mov    0x40(%rsp),%rbx
+  2.38%    2.13%  ││││   0x00007f75f9207cf9: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                  ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+  1.95%    1.97%  ││││   0x00007f75f9207d01: add    $0x1,%rbp          ; OopMap{rbx=Oop [72]=Oop [80]=Oop [0]=Oop off=357}
+                  ││││                                                 ;*ifeq
+                  ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+  1.86%    1.68%  ││││   0x00007f75f9207d05: test   %eax,0x188022f5(%rip)        # 0x00007f7611a0a000
+                  ││││                                                 ;   {poll}
+  0.64%    0.67%  ││││   0x00007f75f9207d0b: test   %r11d,%r11d
+                  ││││   0x00007f75f9207d0e: jne    0x00007f75f9207e0e  ;*aload
+                  ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@13 (line 186)
+  1.62%    1.34%  ↘│││   0x00007f75f9207d14: mov    0x50(%rsp),%r10
+  2.07%    1.48%   │││   0x00007f75f9207d19: movzwl 0xc(%r10),%r9d     ;*getfield targetChar
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@5 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.97%    1.49%   │││   0x00007f75f9207d1e: mov    0x10(%r10),%r11d   ;*getfield quote
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@1 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.65%    0.54%   │││   0x00007f75f9207d22: mov    0xc(%r12,%r11,8),%r11d  ;*getfield value
+                   │││                                                 ; - java.lang.String::indexOf@1 (line 1546)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                   │││                                                 ; implicit exception: dispatches to 0x00007f75f9207ebf
+  1.49%    1.26%   │││   0x00007f75f9207d27: mov    0xc(%r12,%r11,8),%r10d  ;*arraylength
+                   │││                                                 ; - java.lang.String::indexOf@4 (line 1546)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                   │││                                                 ; implicit exception: dispatches to 0x00007f75f9207ed1
+  2.56%    2.28%   │││   0x00007f75f9207d2c: test   %r10d,%r10d
+                   │││   0x00007f75f9207d2f: jle    0x00007f75f9207df0  ;*if_icmplt
+                   │││                                                 ; - java.lang.String::indexOf@17 (line 1549)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.25%    2.32%   │││   0x00007f75f9207d35: test   %r10d,%r10d
+                   │││   0x00007f75f9207d38: jbe    0x00007f75f9207e42
+  2.26%    2.61%   │││   0x00007f75f9207d3e: mov    %r10d,%ecx
+  1.01%    0.91%   │││   0x00007f75f9207d41: dec    %ecx
+  1.09%    1.21%   │││   0x00007f75f9207d43: cmp    %r10d,%ecx
+                   │││   0x00007f75f9207d46: jae    0x00007f75f9207e42  ;*aload
+                   │││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.22%    2.29%   │││   0x00007f75f9207d4c: movzwl 0x10(%r12,%r11,8),%edi
+  1.58%    1.66%   │││   0x00007f75f9207d52: cmp    %r9d,%edi
+                   │││   0x00007f75f9207d55: je     0x00007f75f9207dfa  ;*if_icmpne
+                   │││                                                 ; - java.lang.String::indexOf@49 (line 1559)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.94%    1.70%   │││   0x00007f75f9207d5b: mov    %r10d,%r8d
+  0.74%    0.39%   │││   0x00007f75f9207d5e: add    $0xfffffffffffffffd,%r8d
+  1.64%    2.13%   │││   0x00007f75f9207d62: cmp    %r8d,%ecx
+  1.76%    2.10%   │││   0x00007f75f9207d65: mov    $0x80000000,%ecx
+  2.86%    3.49%   │││   0x00007f75f9207d6a: cmovl  %ecx,%r8d
+  0.74%    1.18%   │││   0x00007f75f9207d6e: lea    (%r12,%r11,8),%rsi
+  1.57%    1.80%   │││   0x00007f75f9207d72: cmp    $0x1,%r8d
+                   │││   0x00007f75f9207d76: jle    0x00007f75f9207e65
+  1.78%    2.23%   │││   0x00007f75f9207d7c: mov    $0x1,%edx          ;*aload
+                   │││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                   │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                   │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  4.15%    4.64%   │││↗  0x00007f75f9207d81: movzwl 0x10(%rsi,%rdx,2),%ecx  ;*caload
+                   ││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                   ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                   ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                   ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.39%    3.10%   ││││  0x00007f75f9207d86: cmp    %r9d,%ecx
+                   ╰│││  0x00007f75f9207d89: je     0x00007f75f9207ce6  ;*if_icmpne
+                    │││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                    │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                    │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.61%    1.56%    │││  0x00007f75f9207d8f: movslq %edx,%r11
+  3.66%    3.77%    │││  0x00007f75f9207d92: movzwl 0x12(%rsi,%r11,2),%edi  ;*caload
+                    │││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                    │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                    │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.75%    4.07%    │││  0x00007f75f9207d98: cmp    %r9d,%edi
+                    ╰││  0x00007f75f9207d9b: je     0x00007f75f9207ce4  ;*if_icmpne
+                     ││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                     ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.66%    0.47%     ││  0x00007f75f9207da1: movzwl 0x14(%rsi,%r11,2),%edi  ;*caload
+                     ││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                     ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.82%    1.89%     ││  0x00007f75f9207da7: cmp    %r9d,%edi
+                     ││  0x00007f75f9207daa: je     0x00007f75f9207de8  ;*if_icmpne
+                     ││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                     ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.79%    2.52%     ││  0x00007f75f9207dac: movzwl 0x16(%rsi,%r11,2),%ecx  ;*caload
+                     ││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                     ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.00%    2.50%     ││  0x00007f75f9207db2: cmp    %r9d,%ecx
+                     ╰│  0x00007f75f9207db5: je     0x00007f75f9207ce1  ;*if_icmpne
+                      │                                                ; - java.lang.String::indexOf@49 (line 1559)
+                      │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.57%    0.81%      │  0x00007f75f9207dbb: add    $0x4,%edx          ;*iinc
+                      │                                                ; - java.lang.String::indexOf@55 (line 1558)
+                      │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.71%    1.96%      │  0x00007f75f9207dbe: cmp    %r8d,%edx
+                      ╰  0x00007f75f9207dc1: jl     0x00007f75f9207d81  ;*if_icmpge
+                                                                       ; - java.lang.String::indexOf@40 (line 1558)
+                                                                       ; - java.lang.String::indexOf@3 (line 1503)
+                                                                       ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                                                                       ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                         0x00007f75f9207dc3: cmp    %r10d,%edx
+....................................................................................................
+ 73.97%   78.13%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.openjdk.jmh.infra.Blackhole::consume, version 450 (51 bytes)
+
+                     # parm0:    rdx       = int
+                     #           [sp+0x30]  (sp of caller)
+                     0x00007f75f91fa060: mov    0x8(%rsi),%r10d
+                     0x00007f75f91fa064: shl    $0x3,%r10
+                     0x00007f75f91fa068: cmp    %r10,%rax
+                     0x00007f75f91fa06b: jne    0x00007f75f9045e20  ;   {runtime_call}
+                     0x00007f75f91fa071: xchg   %ax,%ax
+                     0x00007f75f91fa074: nopl   0x0(%rax,%rax,1)
+                     0x00007f75f91fa07c: xchg   %ax,%ax
+                   [Verified Entry Point]
+  2.49%    3.16%     0x00007f75f91fa080: mov    %eax,-0x14000(%rsp)
+  3.39%    3.79%     0x00007f75f91fa087: push   %rbp
+  1.66%    1.66%     0x00007f75f91fa088: sub    $0x20,%rsp         ;*synchronization entry
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@-1 (line 378)
+  2.29%    2.35%     0x00007f75f91fa08c: mov    0xb0(%rsi),%r10d   ;*getfield i1
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@1 (line 378)
+  2.02%    1.02%     0x00007f75f91fa093: mov    %edx,%r8d
+  2.04%    0.96%     0x00007f75f91fa096: xor    0xb8(%rsi),%r8d    ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@15 (line 380)
+  0.56%    0.28%     0x00007f75f91fa09d: mov    %edx,%r9d
+  1.43%    0.88%     0x00007f75f91fa0a0: xor    %r10d,%r9d         ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@12 (line 380)
+  2.03%    1.41%     0x00007f75f91fa0a3: cmp    %r8d,%r9d
+                  ╭  0x00007f75f91fa0a6: je     0x00007f75f91fa0b4  ;*if_icmpne
+                  │                                                ; - org.openjdk.jmh.infra.Blackhole::consume@16 (line 380)
+  1.91%    1.19%  │  0x00007f75f91fa0a8: add    $0x20,%rsp
+  0.56%    0.36%  │  0x00007f75f91fa0ac: pop    %rbp
+  1.62%    1.13%  │  0x00007f75f91fa0ad: test   %eax,0x1880ff4d(%rip)        # 0x00007f7611a0a000
+                  │                                                ;   {poll_return}
+  1.91%    1.61%  │  0x00007f75f91fa0b3: retq
+                  ↘  0x00007f75f91fa0b4: mov    %rsi,%rbp
+                     0x00007f75f91fa0b7: mov    %edx,(%rsp)
+                     0x00007f75f91fa0ba: mov    %r9d,0x4(%rsp)
+                     0x00007f75f91fa0bf: mov    %r8d,0x8(%rsp)
+                     0x00007f75f91fa0c4: mov    $0xffffff65,%esi
+                     0x00007f75f91fa0c9: xchg   %ax,%ax
+                     0x00007f75f91fa0cb: callq  0x00007f75f90051a0  ; OopMap{rbp=Oop off=112}
+                                                                   ;*if_icmpne
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@16 (line 380)
+....................................................................................................
+ 23.90%   19.81%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 73.97%   78.13%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 470 (218 bytes)
+ 23.90%   19.81%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 450 (51 bytes)
+  0.77%    0.76%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.06%    0.02%   [kernel.kallsyms]  [unknown] (2 bytes)
+  0.06%    0.19%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x117 (98 bytes)
+  0.05%    0.01%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.05%    0.01%   [kernel.kallsyms]  [unknown] (36 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (13 bytes)
+  0.03%            [kernel.kallsyms]  [unknown] (50 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (11 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.02%           libjvm.so  _ZN7Monitor6unlockEv+0x10 (37 bytes)
+  0.03%    0.02%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x24 (4 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (32 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (18 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (20 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (26 bytes)
+  0.02%               hsdis-amd64.so  print_insn+0xe00 (12 bytes)
+  0.80%    0.94%  <...other 135 warm regions...>
+....................................................................................................
+ 99.98%   99.98%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 73.97%   78.13%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 470
+ 23.90%   19.81%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 450
+  1.34%    1.26%   [kernel.kallsyms]  [unknown]
+  0.06%    0.19%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x117
+  0.03%    0.02%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x24
+  0.03%    0.02%           libjvm.so  _ZN7Monitor6unlockEv+0x10
+  0.02%    0.01%        libc-2.23.so  __strchr_sse2+0x23
+  0.02%    0.02%        libc-2.23.so  _IO_default_xsputn+0x0
+  0.02%               hsdis-amd64.so  print_insn+0xe00
+  0.02%                  interpreter  method entry point (kind = zerolocals)
+  0.02%    0.01%        libc-2.23.so  strlen+0x1d
+  0.02%                    libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x1
+  0.02%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x53
+  0.02%    0.01%        libc-2.23.so  _IO_fflush+0xb9
+  0.01%                    libjvm.so  _ZN12outputStream5printEPKcz+0x5
+  0.01%                    libjvm.so  _ZN10ValueStackC1EPS_NS_4KindEi+0x1a0
+  0.01%                    libjvm.so  _ZN17C1_MacroAssembler17initialize_objectEP12RegisterImplS1_S1_iS1_S1_+0x96
+  0.01%    0.02%        libc-2.23.so  _IO_vsnprintf+0x15
+  0.01%                    libjvm.so  _ZN11CodeSection8relocateEPhRK16RelocationHolderi+0x120
+  0.01%                    libjvm.so  _ZN22ImplicitExceptionTableC1EPK7nmethod+0x0
+  0.43%    0.11%  <...other 44 warm methods...>
+....................................................................................................
+ 99.98%   99.61%  <totals>
+
+....[Distribution by Source]........................................................................
+ 97.87%   97.94%         C2, level 4
+  1.34%    1.26%   [kernel.kallsyms]
+  0.37%    0.45%           libjvm.so
+  0.22%    0.27%        libc-2.23.so
+  0.13%    0.03%      hsdis-amd64.so
+  0.03%    0.02%         interpreter
+  0.02%    0.01%  libpthread-2.23.so
+....................................................................................................
+ 99.98%   99.98%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfCharBenchmark.indexOfChar
+# Parameters: (targetChar = y)
+
+# Run progress: 12.50% complete, ETA 00:02:04
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 10.053 ns/op
+# Warmup Iteration   2: 10.468 ns/op
+# Warmup Iteration   3: 9.257 ns/op
+# Warmup Iteration   4: 9.329 ns/op
+# Warmup Iteration   5: 9.451 ns/op
+Iteration   1: 9.223 ns/op
+Iteration   2: 9.272 ns/op
+Iteration   3: 9.172 ns/op
+Iteration   4: 9.096 ns/op
+Iteration   5: 9.431 ns/op
+Iteration   6: 9.343 ns/op
+Iteration   7: 9.118 ns/op
+Iteration   8: 9.250 ns/op
+Iteration   9: 9.439 ns/op
+Iteration  10: 9.361 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar":
+  9.271 ±(99.9%) 0.184 ns/op [Average]
+  (min, avg, max) = (9.096, 9.271, 9.439), stdev = 0.122
+  CI (99.9%): [9.086, 9.455] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar:·asm":
+PrintAssembly processed: 144212 total address lines.
+Perf output processed (skipped 6.404 seconds):
+ Column 1: cycles (10215 events)
+ Column 2: instructions (10219 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 460 (235 bytes)
+
+                           0x00007fd4ad1f6289: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+                                                                         ; implicit exception: dispatches to 0x00007fd4ad1f64f5
+                           0x00007fd4ad1f6291: test   %r11d,%r11d
+                           0x00007fd4ad1f6294: jne    0x00007fd4ad1f63d5  ;*ifeq
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+                           0x00007fd4ad1f629a: mov    $0x1,%ebp
+                  ╭        0x00007fd4ad1f629f: jmp    0x00007fd4ad1f62dc
+                  │   ↗    0x00007fd4ad1f62a1: add    $0x2,%edx
+                  │╭  │    0x00007fd4ad1f62a4: jmp    0x00007fd4ad1f62ab
+  1.36%    1.71%  ││  │↗   0x00007fd4ad1f62a6: add    $0x2,%edx
+  0.43%    0.52%  ││ ↗││   0x00007fd4ad1f62a9: inc    %edx               ;*invokevirtual indexOf
+                  ││ │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                  ││ │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                  ││ │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.40%    0.56%  │↘↗│││   0x00007fd4ad1f62ab: mov    %rbx,0x40(%rsp)
+  0.27%    0.30%  │ ││││   0x00007fd4ad1f62b0: mov    (%rsp),%rsi
+  1.66%    1.72%  │ ││││   0x00007fd4ad1f62b4: xchg   %ax,%ax
+  0.47%    0.42%  │ ││││   0x00007fd4ad1f62b7: callq  0x00007fd4ad046020  ; OopMap{[64]=Oop [72]=Oop [80]=Oop [0]=Oop off=348}
+                  │ ││││                                                 ;*invokevirtual consume
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@20 (line 186)
+                  │ ││││                                                 ;   {optimized virtual_call}
+  0.94%    0.96%  │ ││││   0x00007fd4ad1f62bc: mov    0x40(%rsp),%rbx
+  1.64%    1.68%  │ ││││   0x00007fd4ad1f62c1: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+  0.40%    0.60%  │ ││││   0x00007fd4ad1f62c9: add    $0x1,%rbp          ; OopMap{rbx=Oop [72]=Oop [80]=Oop [0]=Oop off=365}
+                  │ ││││                                                 ;*ifeq
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+  0.81%    1.14%  │ ││││   0x00007fd4ad1f62cd: test   %eax,0x1713bd2d(%rip)        # 0x00007fd4c4332000
+                  │ ││││                                                 ;   {poll}
+  0.23%    0.23%  │ ││││   0x00007fd4ad1f62d3: test   %r11d,%r11d
+                  │ ││││   0x00007fd4ad1f62d6: jne    0x00007fd4ad1f63da  ;*aload
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@13 (line 186)
+  1.37%    1.35%  ↘ ││││   0x00007fd4ad1f62dc: mov    0x50(%rsp),%r10
+  0.42%    0.50%    ││││   0x00007fd4ad1f62e1: movzwl 0xc(%r10),%r9d     ;*getfield targetChar
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@5 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.87%    1.03%    ││││   0x00007fd4ad1f62e6: mov    0x10(%r10),%r11d   ;*getfield quote
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@1 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.22%    0.24%    ││││   0x00007fd4ad1f62ea: mov    0xc(%r12,%r11,8),%r11d  ;*getfield value
+                    ││││                                                 ; - java.lang.String::indexOf@1 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007fd4ad1f648b
+  1.96%    2.30%    ││││   0x00007fd4ad1f62ef: mov    0xc(%r12,%r11,8),%r10d  ;*arraylength
+                    ││││                                                 ; - java.lang.String::indexOf@4 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007fd4ad1f649d
+  5.24%    6.75%    ││││   0x00007fd4ad1f62f4: test   %r10d,%r10d
+                    ││││   0x00007fd4ad1f62f7: jle    0x00007fd4ad1f63bc  ;*if_icmplt
+                    ││││                                                 ; - java.lang.String::indexOf@17 (line 1549)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.89%    2.38%    ││││   0x00007fd4ad1f62fd: test   %r10d,%r10d
+  0.07%    0.09%    ││││   0x00007fd4ad1f6300: jbe    0x00007fd4ad1f640e
+  3.00%    3.74%    ││││   0x00007fd4ad1f6306: mov    %r10d,%ecx
+  0.08%    0.08%    ││││   0x00007fd4ad1f6309: dec    %ecx
+  0.35%    0.41%    ││││   0x00007fd4ad1f630b: cmp    %r10d,%ecx
+                    ││││   0x00007fd4ad1f630e: jae    0x00007fd4ad1f640e  ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.52%    0.59%    ││││   0x00007fd4ad1f6314: movzwl 0x10(%r12,%r11,8),%edi
+  1.74%    2.14%    ││││   0x00007fd4ad1f631a: cmp    %r9d,%edi
+                    ││││   0x00007fd4ad1f631d: je     0x00007fd4ad1f63c6  ;*if_icmpne
+                    ││││                                                 ; - java.lang.String::indexOf@49 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.25%    0.37%    ││││   0x00007fd4ad1f6323: mov    %r10d,%r8d
+  0.42%    0.52%    ││││   0x00007fd4ad1f6326: add    $0xfffffffffffffffd,%r8d
+  0.28%    0.32%    ││││   0x00007fd4ad1f632a: cmp    %r8d,%ecx
+  1.59%    1.53%    ││││   0x00007fd4ad1f632d: mov    $0x80000000,%ecx
+  0.50%    0.63%    ││││   0x00007fd4ad1f6332: cmovl  %ecx,%r8d
+  0.41%    0.36%    ││││   0x00007fd4ad1f6336: lea    (%r12,%r11,8),%rsi
+  0.24%    0.36%    ││││   0x00007fd4ad1f633a: cmp    $0x1,%r8d
+                    ││││   0x00007fd4ad1f633e: jle    0x00007fd4ad1f6431
+  1.99%    1.59%    ││││   0x00007fd4ad1f6344: mov    $0x1,%edx
+  0.31%    0.38%    ││││   0x00007fd4ad1f6349: nopl   0x0(%rax)          ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.39%    4.27%    ││││↗  0x00007fd4ad1f6350: movzwl 0x10(%rsi,%rdx,2),%ecx  ;*caload
+                    │││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                    │││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                    │││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    │││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.03%    4.30%    │││││  0x00007fd4ad1f6355: cmp    %r9d,%ecx
+                    ╰││││  0x00007fd4ad1f6358: je     0x00007fd4ad1f62ab  ;*if_icmpne
+                     ││││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  4.84%    4.23%     ││││  0x00007fd4ad1f635e: movslq %edx,%r11
+  4.80%    5.13%     ││││  0x00007fd4ad1f6361: movzwl 0x12(%rsi,%r11,2),%edi  ;*caload
+                     ││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.54%    4.92%     ││││  0x00007fd4ad1f6367: cmp    %r9d,%edi
+                     ╰│││  0x00007fd4ad1f636a: je     0x00007fd4ad1f62a9  ;*if_icmpne
+                      │││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.24%    4.61%      │││  0x00007fd4ad1f6370: movzwl 0x14(%rsi,%r11,2),%edi  ;*caload
+                      │││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.77%    4.78%      │││  0x00007fd4ad1f6376: cmp    %r9d,%edi
+                      ╰││  0x00007fd4ad1f6379: je     0x00007fd4ad1f62a1  ;*if_icmpne
+                       ││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.38%    4.74%       ││  0x00007fd4ad1f637f: movzwl 0x16(%rsi,%r11,2),%ecx  ;*caload
+                       ││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  5.29%    4.29%       ││  0x00007fd4ad1f6385: cmp    %r9d,%ecx
+                       ╰│  0x00007fd4ad1f6388: je     0x00007fd4ad1f62a6  ;*if_icmpne
+                        │                                                ; - java.lang.String::indexOf@49 (line 1559)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.56%    2.94%        │  0x00007fd4ad1f638e: add    $0x4,%edx          ;*iinc
+                        │                                                ; - java.lang.String::indexOf@55 (line 1558)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  4.42%    4.04%        │  0x00007fd4ad1f6391: cmp    %r8d,%edx
+                        ╰  0x00007fd4ad1f6394: jl     0x00007fd4ad1f6350  ;*if_icmpge
+                                                                         ; - java.lang.String::indexOf@40 (line 1558)
+                                                                         ; - java.lang.String::indexOf@3 (line 1503)
+                                                                         ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                           0x00007fd4ad1f6396: cmp    %r10d,%edx
+....................................................................................................
+ 87.62%   85.72%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.openjdk.jmh.infra.Blackhole::consume, version 436 (51 bytes)
+
+                     # parm0:    rdx       = int
+                     #           [sp+0x30]  (sp of caller)
+                     0x00007fd4ad1e9b60: mov    0x8(%rsi),%r10d
+                     0x00007fd4ad1e9b64: shl    $0x3,%r10
+                     0x00007fd4ad1e9b68: cmp    %r10,%rax
+                     0x00007fd4ad1e9b6b: jne    0x00007fd4ad045e20  ;   {runtime_call}
+                     0x00007fd4ad1e9b71: xchg   %ax,%ax
+                     0x00007fd4ad1e9b74: nopl   0x0(%rax,%rax,1)
+                     0x00007fd4ad1e9b7c: xchg   %ax,%ax
+                   [Verified Entry Point]
+  0.71%    0.85%     0x00007fd4ad1e9b80: mov    %eax,-0x14000(%rsp)
+  1.92%    2.50%     0x00007fd4ad1e9b87: push   %rbp
+  0.34%    0.45%     0x00007fd4ad1e9b88: sub    $0x20,%rsp         ;*synchronization entry
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@-1 (line 378)
+  1.84%    2.33%     0x00007fd4ad1e9b8c: mov    0xb0(%rsi),%r10d   ;*getfield i1
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@1 (line 378)
+  0.44%    0.49%     0x00007fd4ad1e9b93: mov    %edx,%r8d
+  0.34%    0.29%     0x00007fd4ad1e9b96: xor    0xb8(%rsi),%r8d    ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@15 (line 380)
+  0.31%    0.38%     0x00007fd4ad1e9b9d: mov    %edx,%r9d
+  1.28%    1.67%     0x00007fd4ad1e9ba0: xor    %r10d,%r9d         ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@12 (line 380)
+  0.39%    0.48%     0x00007fd4ad1e9ba3: cmp    %r8d,%r9d
+                  ╭  0x00007fd4ad1e9ba6: je     0x00007fd4ad1e9bb4  ;*if_icmpne
+                  │                                                ; - org.openjdk.jmh.infra.Blackhole::consume@16 (line 380)
+  0.38%    0.40%  │  0x00007fd4ad1e9ba8: add    $0x20,%rsp
+  0.31%    0.38%  │  0x00007fd4ad1e9bac: pop    %rbp
+  1.45%    1.48%  │  0x00007fd4ad1e9bad: test   %eax,0x1714844d(%rip)        # 0x00007fd4c4332000
+                  │                                                ;   {poll_return}
+  0.47%    0.45%  │  0x00007fd4ad1e9bb3: retq
+                  ↘  0x00007fd4ad1e9bb4: mov    %rsi,%rbp
+                     0x00007fd4ad1e9bb7: mov    %edx,(%rsp)
+                     0x00007fd4ad1e9bba: mov    %r9d,0x4(%rsp)
+                     0x00007fd4ad1e9bbf: mov    %r8d,0x8(%rsp)
+                     0x00007fd4ad1e9bc4: mov    $0xffffff65,%esi
+                     0x00007fd4ad1e9bc9: xchg   %ax,%ax
+                     0x00007fd4ad1e9bcb: callq  0x00007fd4ad0051a0  ; OopMap{rbp=Oop off=112}
+                                                                   ;*if_icmpne
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@16 (line 380)
+....................................................................................................
+ 10.20%   12.15%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 87.62%   85.72%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 460 (235 bytes)
+ 10.20%   12.15%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 436 (51 bytes)
+  0.70%    0.69%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.09%    0.09%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.06%    0.05%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.06%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.06%            [kernel.kallsyms]  [unknown] (40 bytes)
+  0.05%    0.01%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (73 bytes)
+  0.03%    0.01%           libjvm.so  _ZN10fileStream5writeEPKcm+0x40 (14 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (8 bytes)
+  0.02%    0.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (17 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.03%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0xb (57 bytes)
+  0.02%                    libjvm.so  _ZN12outputStream12do_vsnprintfEPcmPKcP13__va_list_tagbRm+0x4 (19 bytes)
+  0.02%    0.14%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113 (92 bytes)
+  0.02%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x160 (15 bytes)
+  0.02%                 libc-2.23.so  _IO_fwrite+0x4e (5 bytes)
+  0.88%    1.03%  <...other 154 warm regions...>
+....................................................................................................
+ 99.97%  100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 87.62%   85.72%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 460
+ 10.20%   12.15%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 436
+  1.47%    1.38%   [kernel.kallsyms]  [unknown]
+  0.03%    0.01%           libjvm.so  _ZN10fileStream5writeEPKcm+0x40
+  0.02%    0.14%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113
+  0.02%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x160
+  0.02%    0.03%        libc-2.23.so  strlen+0x10
+  0.02%                    libjvm.so  _ZN12outputStream12do_vsnprintfEPcmPKcP13__va_list_tagbRm+0x4
+  0.02%    0.01%  libpthread-2.23.so  __pthread_disable_asynccancel+0x22
+  0.02%                 libc-2.23.so  _IO_fwrite+0x4e
+  0.02%    0.03%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0xb
+  0.01%               hsdis-amd64.so  print_insn+0x20b
+  0.01%                    libjvm.so  _ZN15ciInstanceKlassC1E11KlassHandle+0x69
+  0.01%                    libjvm.so  _ZN12LinkResolver14resolve_invokeER8CallInfo6Handle18constantPoolHandleiN9Bytecodes4CodeEP6Thread+0x3d
+  0.01%                    libjvm.so  SpinPause+0x2
+  0.01%                  interpreter  iconst_m1  2 iconst_m1
+  0.01%                    libjvm.so  _ZN13SharedRuntime23java_calling_conventionEPK9BasicTypeP9VMRegPairii+0x58
+  0.01%                 libc-2.23.so  __strchr_sse2+0x52
+  0.01%                 libc-2.23.so  vfprintf+0x465
+  0.01%                    libjvm.so  _ZN13defaultStream4holdEl+0xdf
+  0.43%    0.14%  <...other 44 warm methods...>
+....................................................................................................
+ 99.97%   99.62%  <totals>
+
+....[Distribution by Source]........................................................................
+ 97.82%   97.88%         C2, level 4
+  1.47%    1.38%   [kernel.kallsyms]
+  0.33%    0.40%           libjvm.so
+  0.23%    0.23%        libc-2.23.so
+  0.08%    0.04%      hsdis-amd64.so
+  0.03%    0.05%  libpthread-2.23.so
+  0.02%    0.01%         interpreter
+....................................................................................................
+ 99.97%  100.00%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfCharBenchmark.indexOfChar
+# Parameters: (targetChar = .)
+
+# Run progress: 25.00% complete, ETA 00:01:44
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 29.016 ns/op
+# Warmup Iteration   2: 28.328 ns/op
+# Warmup Iteration   3: 27.713 ns/op
+# Warmup Iteration   4: 27.656 ns/op
+# Warmup Iteration   5: 27.434 ns/op
+Iteration   1: 28.877 ns/op
+Iteration   2: 27.720 ns/op
+Iteration   3: 28.312 ns/op
+Iteration   4: 28.530 ns/op
+Iteration   5: 28.632 ns/op
+Iteration   6: 28.460 ns/op
+Iteration   7: 27.104 ns/op
+Iteration   8: 26.757 ns/op
+Iteration   9: 28.038 ns/op
+Iteration  10: 28.871 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar":
+  28.130 ±(99.9%) 1.101 ns/op [Average]
+  (min, avg, max) = (26.757, 28.130, 28.877), stdev = 0.728
+  CI (99.9%): [27.029, 29.231] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar:·asm":
+PrintAssembly processed: 151163 total address lines.
+Perf output processed (skipped 6.410 seconds):
+ Column 1: cycles (10419 events)
+ Column 2: instructions (10365 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 471 (240 bytes)
+
+                                                                         ;   {optimized virtual_call}
+                           0x00007f2231209704: mov    0x40(%rsp),%rbx
+                           0x00007f2231209709: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+                                                                         ; implicit exception: dispatches to 0x00007f2231209979
+                           0x00007f2231209711: test   %r11d,%r11d
+                           0x00007f2231209714: jne    0x00007f2231209855  ;*ifeq
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+                           0x00007f223120971a: mov    $0x1,%ebp
+                  ╭        0x00007f223120971f: jmp    0x00007f223120975c
+  0.09%    0.14%  │   ↗    0x00007f2231209721: add    $0x2,%edx
+  0.62%    1.05%  │╭  │    0x00007f2231209724: jmp    0x00007f223120972b
+                  ││  │↗   0x00007f2231209726: add    $0x2,%edx
+                  ││ ↗││   0x00007f2231209729: inc    %edx               ;*invokevirtual indexOf
+                  ││ │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                  ││ │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                  ││ │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.36%    0.53%  │↘↗│││   0x00007f223120972b: mov    %rbx,0x40(%rsp)
+  2.84%    4.24%  │ ││││   0x00007f2231209730: mov    (%rsp),%rsi
+                  │ ││││   0x00007f2231209734: xchg   %ax,%ax
+  0.03%    0.07%  │ ││││   0x00007f2231209737: callq  0x00007f2231046020  ; OopMap{[64]=Oop [72]=Oop [80]=Oop [0]=Oop off=348}
+                  │ ││││                                                 ;*invokevirtual consume
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@20 (line 186)
+                  │ ││││                                                 ;   {optimized virtual_call}
+  7.39%    5.59%  │ ││││   0x00007f223120973c: mov    0x40(%rsp),%rbx
+                  │ ││││   0x00007f2231209741: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+  0.02%    0.03%  │ ││││   0x00007f2231209749: add    $0x1,%rbp          ; OopMap{rbx=Oop [72]=Oop [80]=Oop [0]=Oop off=365}
+                  │ ││││                                                 ;*ifeq
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+  0.80%    0.13%  │ ││││   0x00007f223120974d: test   %eax,0x169bb8ad(%rip)        # 0x00007f2247bc5000
+                  │ ││││                                                 ;   {poll}
+                  │ ││││   0x00007f2231209753: test   %r11d,%r11d
+                  │ ││││   0x00007f2231209756: jne    0x00007f223120985a  ;*aload
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@13 (line 186)
+                  ↘ ││││   0x00007f223120975c: mov    0x50(%rsp),%r10
+           0.03%    ││││   0x00007f2231209761: movzwl 0xc(%r10),%r9d     ;*getfield targetChar
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@5 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.79%    0.15%    ││││   0x00007f2231209766: mov    0x10(%r10),%r11d   ;*getfield quote
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@1 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││   0x00007f223120976a: mov    0xc(%r12,%r11,8),%r11d  ;*getfield value
+                    ││││                                                 ; - java.lang.String::indexOf@1 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007f223120990f
+  0.51%    0.19%    ││││   0x00007f223120976f: mov    0xc(%r12,%r11,8),%r10d  ;*arraylength
+                    ││││                                                 ; - java.lang.String::indexOf@4 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007f2231209921
+  1.86%    0.20%    ││││   0x00007f2231209774: test   %r10d,%r10d
+                    ││││   0x00007f2231209777: jle    0x00007f223120983c  ;*if_icmplt
+                    ││││                                                 ; - java.lang.String::indexOf@17 (line 1549)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.92%    0.47%    ││││   0x00007f223120977d: test   %r10d,%r10d
+           0.01%    ││││   0x00007f2231209780: jbe    0x00007f2231209884
+  1.31%    1.41%    ││││   0x00007f2231209786: mov    %r10d,%ecx
+  0.01%    0.02%    ││││   0x00007f2231209789: dec    %ecx
+  0.36%    0.39%    ││││   0x00007f223120978b: cmp    %r10d,%ecx
+                    ││││   0x00007f223120978e: jae    0x00007f2231209884  ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.15%    0.25%    ││││   0x00007f2231209794: movzwl 0x10(%r12,%r11,8),%edi
+  0.61%    0.45%    ││││   0x00007f223120979a: cmp    %r9d,%edi
+                    ││││   0x00007f223120979d: je     0x00007f2231209846  ;*if_icmpne
+                    ││││                                                 ; - java.lang.String::indexOf@49 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.08%    0.08%    ││││   0x00007f22312097a3: mov    %r10d,%r8d
+  0.16%    0.13%    ││││   0x00007f22312097a6: add    $0xfffffffffffffffd,%r8d
+  0.20%    0.08%    ││││   0x00007f22312097aa: cmp    %r8d,%ecx
+  0.46%    0.03%    ││││   0x00007f22312097ad: mov    $0x80000000,%ecx
+  0.08%    0.05%    ││││   0x00007f22312097b2: cmovl  %ecx,%r8d
+  0.14%    0.07%    ││││   0x00007f22312097b6: lea    (%r12,%r11,8),%rsi
+  0.15%             ││││   0x00007f22312097ba: cmp    $0x1,%r8d
+                    ││││   0x00007f22312097be: jle    0x00007f22312098a9
+  0.53%    0.03%    ││││   0x00007f22312097c4: mov    $0x1,%edx
+  0.05%    0.03%    ││││   0x00007f22312097c9: nopl   0x0(%rax)          ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  9.74%    8.90%    ││││↗  0x00007f22312097d0: movzwl 0x10(%rsi,%rdx,2),%ecx  ;*caload
+                    │││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                    │││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                    │││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    │││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.52%    2.01%    │││││  0x00007f22312097d5: cmp    %r9d,%ecx
+                    ╰││││  0x00007f22312097d8: je     0x00007f223120972b  ;*if_icmpne
+                     ││││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+ 11.40%   10.50%     ││││  0x00007f22312097de: movslq %edx,%r11
+  1.82%    2.38%     ││││  0x00007f22312097e1: movzwl 0x12(%rsi,%r11,2),%edi  ;*caload
+                     ││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.27%    3.17%     ││││  0x00007f22312097e7: cmp    %r9d,%edi
+                     ╰│││  0x00007f22312097ea: je     0x00007f2231209729  ;*if_icmpne
+                      │││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+ 10.22%    9.13%      │││  0x00007f22312097f0: movzwl 0x14(%rsi,%r11,2),%edi  ;*caload
+                      │││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.35%    3.50%      │││  0x00007f22312097f6: cmp    %r9d,%edi
+                      ╰││  0x00007f22312097f9: je     0x00007f2231209721  ;*if_icmpne
+                       ││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  9.48%    9.80%       ││  0x00007f22312097ff: movzwl 0x16(%rsi,%r11,2),%ecx  ;*caload
+                       ││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.91%    2.60%       ││  0x00007f2231209805: cmp    %r9d,%ecx
+                       ╰│  0x00007f2231209808: je     0x00007f2231209726  ;*if_icmpne
+                        │                                                ; - java.lang.String::indexOf@49 (line 1559)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+ 11.42%   11.37%        │  0x00007f223120980e: add    $0x4,%edx          ;*iinc
+                        │                                                ; - java.lang.String::indexOf@55 (line 1558)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.28%    2.70%        │  0x00007f2231209811: cmp    %r8d,%edx
+                        ╰  0x00007f2231209814: jl     0x00007f22312097d0  ;*if_icmpge
+                                                                         ; - java.lang.String::indexOf@40 (line 1558)
+                                                                         ; - java.lang.String::indexOf@3 (line 1503)
+                                                                         ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                           0x00007f2231209816: cmp    %r10d,%edx
+....................................................................................................
+ 87.95%   81.91%  <total for region 1>
+
+....[Hottest Regions]...............................................................................
+ 87.95%   81.91%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 471 (240 bytes)
+  7.97%   14.10%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 450 (51 bytes)
+  2.05%    2.04%   [kernel.kallsyms]  [unknown] (5 bytes)
+  0.12%    0.13%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.10%    0.21%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x11f (85 bytes)
+  0.05%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.05%    0.01%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.05%               hsdis-amd64.so  oappend+0x23 (5 bytes)
+  0.04%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (1 bytes)
+  0.03%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (68 bytes)
+  0.03%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (12 bytes)
+  0.03%    0.03%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x40 (19 bytes)
+  0.03%                 libc-2.23.so  _IO_fwrite+0x2a (41 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (10 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (50 bytes)
+  1.31%    1.41%  <...other 203 warm regions...>
+....................................................................................................
+ 99.98%   99.97%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 87.95%   81.91%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 471
+  7.97%   14.10%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 450
+  3.23%    2.95%   [kernel.kallsyms]  [unknown]
+  0.10%    0.21%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x11f
+  0.05%               hsdis-amd64.so  oappend+0x23
+  0.03%    0.03%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x40
+  0.03%                 libc-2.23.so  _IO_fwrite+0x2a
+  0.02%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x164
+  0.02%    0.02%           libjvm.so  _ZN10fileStream5writeEPKcm+0x4e
+  0.02%               hsdis-amd64.so  print_insn+0x1b9
+  0.02%    0.01%        libc-2.23.so  __strchr_sse2+0x43
+  0.02%    0.01%           libjvm.so  _ZN13defaultStream4holdEl+0xc5
+  0.02%                    libjvm.so  _ZN10decode_env12handle_eventEPKcPh+0xa3
+  0.01%                 libc-2.23.so  __strncpy_sse2_unaligned+0x0
+  0.01%               hsdis-amd64.so  putop+0x85
+  0.01%    0.02%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x82
+  0.01%                    libjvm.so  _ZN8CHeapObjIL10MemoryType1EEnwEmRK15NativeCallStack+0x0
+  0.01%                    libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x14
+  0.01%                 libc-2.23.so  vfprintf+0x7cb
+  0.01%                 libc-2.23.so  __GI___mempcpy+0x58
+  0.44%    0.12%  <...other 46 warm methods...>
+....................................................................................................
+ 99.98%   99.38%  <totals>
+
+....[Distribution by Source]........................................................................
+ 95.92%   96.01%         C2, level 4
+  3.23%    2.95%   [kernel.kallsyms]
+  0.45%    0.70%           libjvm.so
+  0.19%    0.24%        libc-2.23.so
+  0.12%    0.05%      hsdis-amd64.so
+  0.03%    0.01%  libpthread-2.23.so
+  0.02%    0.01%         interpreter
+  0.01%                    libzip.so
+....................................................................................................
+ 99.98%   99.97%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfCharBenchmark.indexOfChar
+# Parameters: (targetChar = p)
+
+# Run progress: 37.50% complete, ETA 00:01:26
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 34.465 ns/op
+# Warmup Iteration   2: 34.303 ns/op
+# Warmup Iteration   3: 33.494 ns/op
+# Warmup Iteration   4: 33.317 ns/op
+# Warmup Iteration   5: 33.288 ns/op
+Iteration   1: 33.399 ns/op
+Iteration   2: 33.301 ns/op
+Iteration   3: 33.987 ns/op
+Iteration   4: 33.286 ns/op
+Iteration   5: 33.424 ns/op
+Iteration   6: 33.502 ns/op
+Iteration   7: 33.504 ns/op
+Iteration   8: 33.473 ns/op
+Iteration   9: 33.433 ns/op
+Iteration  10: 33.572 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar":
+  33.488 ±(99.9%) 0.297 ns/op [Average]
+  (min, avg, max) = (33.286, 33.488, 33.987), stdev = 0.197
+  CI (99.9%): [33.191, 33.785] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfCharBenchmark.indexOfChar:·asm":
+PrintAssembly processed: 142987 total address lines.
+Perf output processed (skipped 6.324 seconds):
+ Column 1: cycles (10361 events)
+ Column 2: instructions (10346 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 458 (235 bytes)
+
+                           0x00007fc860fd4909: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+                                                                         ; implicit exception: dispatches to 0x00007fc860fd4b75
+                           0x00007fc860fd4911: test   %r11d,%r11d
+                           0x00007fc860fd4914: jne    0x00007fc860fd4a55  ;*ifeq
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+                           0x00007fc860fd491a: mov    $0x1,%ebp
+                  ╭        0x00007fc860fd491f: jmp    0x00007fc860fd495c
+                  │   ↗    0x00007fc860fd4921: add    $0x2,%edx
+                  │╭  │    0x00007fc860fd4924: jmp    0x00007fc860fd492b
+  0.21%    0.25%  ││  │↗   0x00007fc860fd4926: add    $0x2,%edx
+  0.86%    1.61%  ││ ↗││   0x00007fc860fd4929: inc    %edx               ;*invokevirtual indexOf
+                  ││ │││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                  ││ │││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                  ││ │││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  1.13%    1.92%  │↘↗│││   0x00007fc860fd492b: mov    %rbx,0x40(%rsp)
+  1.88%    3.37%  │ ││││   0x00007fc860fd4930: mov    (%rsp),%rsi
+  0.01%    0.03%  │ ││││   0x00007fc860fd4934: xchg   %ax,%ax
+           0.02%  │ ││││   0x00007fc860fd4937: callq  0x00007fc860e2b020  ; OopMap{[64]=Oop [72]=Oop [80]=Oop [0]=Oop off=348}
+                  │ ││││                                                 ;*invokevirtual consume
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@20 (line 186)
+                  │ ││││                                                 ;   {optimized virtual_call}
+  7.05%    2.46%  │ ││││   0x00007fc860fd493c: mov    0x40(%rsp),%rbx
+           0.03%  │ ││││   0x00007fc860fd4941: movzbl 0x94(%rbx),%r11d   ;*getfield isDone
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@30 (line 188)
+  0.01%           │ ││││   0x00007fc860fd4949: add    $0x1,%rbp          ; OopMap{rbx=Oop [72]=Oop [80]=Oop [0]=Oop off=365}
+                  │ ││││                                                 ;*ifeq
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@33 (line 188)
+  0.59%    0.06%  │ ││││   0x00007fc860fd494d: test   %eax,0x15f3f6ad(%rip)        # 0x00007fc876f14000
+                  │ ││││                                                 ;   {poll}
+  0.02%           │ ││││   0x00007fc860fd4953: test   %r11d,%r11d
+                  │ ││││   0x00007fc860fd4956: jne    0x00007fc860fd4a5a  ;*aload
+                  │ ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@13 (line 186)
+           0.01%  ↘ ││││   0x00007fc860fd495c: mov    0x50(%rsp),%r10
+                    ││││   0x00007fc860fd4961: movzwl 0xc(%r10),%r9d     ;*getfield targetChar
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@5 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.67%    0.12%    ││││   0x00007fc860fd4966: mov    0x10(%r10),%r11d   ;*getfield quote
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@1 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.01%    0.01%    ││││   0x00007fc860fd496a: mov    0xc(%r12,%r11,8),%r11d  ;*getfield value
+                    ││││                                                 ; - java.lang.String::indexOf@1 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007fc860fd4b0b
+  0.16%    0.06%    ││││   0x00007fc860fd496f: mov    0xc(%r12,%r11,8),%r10d  ;*arraylength
+                    ││││                                                 ; - java.lang.String::indexOf@4 (line 1546)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                    ││││                                                 ; implicit exception: dispatches to 0x00007fc860fd4b1d
+  1.42%    0.06%    ││││   0x00007fc860fd4974: test   %r10d,%r10d
+                    ││││   0x00007fc860fd4977: jle    0x00007fc860fd4a3c  ;*if_icmplt
+                    ││││                                                 ; - java.lang.String::indexOf@17 (line 1549)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.67%    0.49%    ││││   0x00007fc860fd497d: test   %r10d,%r10d
+                    ││││   0x00007fc860fd4980: jbe    0x00007fc860fd4a8e
+  1.00%    1.26%    ││││   0x00007fc860fd4986: mov    %r10d,%ecx
+  0.01%    0.01%    ││││   0x00007fc860fd4989: dec    %ecx
+  0.26%    0.26%    ││││   0x00007fc860fd498b: cmp    %r10d,%ecx
+                    ││││   0x00007fc860fd498e: jae    0x00007fc860fd4a8e  ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.08%    0.09%    ││││   0x00007fc860fd4994: movzwl 0x10(%r12,%r11,8),%edi
+  0.52%    0.18%    ││││   0x00007fc860fd499a: cmp    %r9d,%edi
+                    ││││   0x00007fc860fd499d: je     0x00007fc860fd4a46  ;*if_icmpne
+                    ││││                                                 ; - java.lang.String::indexOf@49 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  0.04%    0.03%    ││││   0x00007fc860fd49a3: mov    %r10d,%r8d
+  0.06%    0.04%    ││││   0x00007fc860fd49a6: add    $0xfffffffffffffffd,%r8d
+  0.14%    0.01%    ││││   0x00007fc860fd49aa: cmp    %r8d,%ecx
+  0.50%    0.01%    ││││   0x00007fc860fd49ad: mov    $0x80000000,%ecx
+  0.03%    0.03%    ││││   0x00007fc860fd49b2: cmovl  %ecx,%r8d
+  0.13%    0.01%    ││││   0x00007fc860fd49b6: lea    (%r12,%r11,8),%rsi
+  0.06%    0.01%    ││││   0x00007fc860fd49ba: cmp    $0x1,%r8d
+                    ││││   0x00007fc860fd49be: jle    0x00007fc860fd4ab1
+  0.43%             ││││   0x00007fc860fd49c4: mov    $0x1,%edx
+  0.01%             ││││   0x00007fc860fd49c9: nopl   0x0(%rax)          ;*aload
+                    ││││                                                 ; - java.lang.String::indexOf@43 (line 1559)
+                    ││││                                                 ; - java.lang.String::indexOf@3 (line 1503)
+                    ││││                                                 ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    ││││                                                 ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  9.69%    9.00%    ││││↗  0x00007fc860fd49d0: movzwl 0x10(%rsi,%rdx,2),%ecx  ;*caload
+                    │││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                    │││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                    │││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                    │││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.74%    3.58%    │││││  0x00007fc860fd49d5: cmp    %r9d,%ecx
+                    ╰││││  0x00007fc860fd49d8: je     0x00007fc860fd492b  ;*if_icmpne
+                     ││││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+ 10.93%   10.34%     ││││  0x00007fc860fd49de: movslq %edx,%r11
+  2.88%    3.95%     ││││  0x00007fc860fd49e1: movzwl 0x12(%rsi,%r11,2),%edi  ;*caload
+                     ││││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                     ││││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                     ││││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                     ││││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.40%    3.58%     ││││  0x00007fc860fd49e7: cmp    %r9d,%edi
+                     ╰│││  0x00007fc860fd49ea: je     0x00007fc860fd4929  ;*if_icmpne
+                      │││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  9.33%    9.17%      │││  0x00007fc860fd49f0: movzwl 0x14(%rsi,%r11,2),%edi  ;*caload
+                      │││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                      │││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                      │││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                      │││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  4.31%    4.32%      │││  0x00007fc860fd49f6: cmp    %r9d,%edi
+                      ╰││  0x00007fc860fd49f9: je     0x00007fc860fd4921  ;*if_icmpne
+                       ││                                                ; - java.lang.String::indexOf@49 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  9.62%    9.57%       ││  0x00007fc860fd49ff: movzwl 0x16(%rsi,%r11,2),%ecx  ;*caload
+                       ││                                                ; - java.lang.String::indexOf@47 (line 1559)
+                       ││                                                ; - java.lang.String::indexOf@3 (line 1503)
+                       ││                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                       ││                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  3.03%    4.45%       ││  0x00007fc860fd4a05: cmp    %r9d,%ecx
+                       ╰│  0x00007fc860fd4a08: je     0x00007fc860fd4926  ;*if_icmpne
+                        │                                                ; - java.lang.String::indexOf@49 (line 1559)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+ 11.50%   11.06%        │  0x00007fc860fd4a0e: add    $0x4,%edx          ;*iinc
+                        │                                                ; - java.lang.String::indexOf@55 (line 1558)
+                        │                                                ; - java.lang.String::indexOf@3 (line 1503)
+                        │                                                ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                        │                                                ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+  2.85%    4.08%        │  0x00007fc860fd4a11: cmp    %r8d,%edx
+                        ╰  0x00007fc860fd4a14: jl     0x00007fc860fd49d0  ;*if_icmpge
+                                                                         ; - java.lang.String::indexOf@40 (line 1558)
+                                                                         ; - java.lang.String::indexOf@3 (line 1503)
+                                                                         ; - org.example.intrinsic.IndexOfCharBenchmark::indexOfChar@8 (line 53)
+                                                                         ; - org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub@17 (line 186)
+                           0x00007fc860fd4a16: cmp    %r10d,%edx
+....................................................................................................
+ 89.22%   85.53%  <total for region 1>
+
+....[Hottest Regions]...............................................................................
+ 89.22%   85.53%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 458 (235 bytes)
+  7.24%   11.01%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 433 (51 bytes)
+  2.04%    2.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.07%    0.02%   [kernel.kallsyms]  [unknown] (9 bytes)
+  0.06%    0.03%   [kernel.kallsyms]  [unknown] (46 bytes)
+  0.04%    0.03%   [kernel.kallsyms]  [unknown] (82 bytes)
+  0.04%    0.02%   [kernel.kallsyms]  [unknown] (27 bytes)
+  0.04%    0.21%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x117 (98 bytes)
+  0.04%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x40 (26 bytes)
+  0.03%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (21 bytes)
+  0.03%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (11 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (40 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (16 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (17 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (12 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (11 bytes)
+  0.97%    1.05%  <...other 153 warm regions...>
+....................................................................................................
+ 99.99%   99.99%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 89.22%   85.53%         C2, level 4  org.example.intrinsic.generated.IndexOfCharBenchmark_indexOfChar_jmhTest::indexOfChar_avgt_jmhStub, version 458
+  7.24%   11.01%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 433
+  2.79%    2.58%   [kernel.kallsyms]  [unknown]
+  0.04%    0.21%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x117
+  0.04%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x40
+  0.02%    0.02%        libc-2.23.so  _IO_default_xsputn+0x4b
+  0.02%               hsdis-amd64.so  print_insn+0x51
+  0.02%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x160
+  0.02%    0.01%        libc-2.23.so  _IO_fwrite+0x40
+  0.02%                    libjvm.so  _ZN12outputStream12do_vsnprintfEPcmPKcP13__va_list_tagbRm+0x0
+  0.02%    0.07%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x28
+  0.02%               hsdis-amd64.so  oappend+0x23
+  0.01%               hsdis-amd64.so  OP_E_memory+0x84a
+  0.01%                  interpreter  invoke return entry points
+  0.01%                  interpreter  bipush  16 bipush
+  0.01%                    libjvm.so  _ZN12outputStream15update_positionEPKcm+0x5a
+  0.01%                    libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x6
+  0.01%                    libjvm.so  _ZN12outputStream5printEPKcz+0x5
+  0.01%                    libjvm.so  _Z23resource_allocate_bytesmN17AllocFailStrategy13AllocFailEnumE+0x1
+  0.01%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x82
+  0.45%    0.15%  <...other 47 warm methods...>
+....................................................................................................
+ 99.99%   99.61%  <totals>
+
+....[Distribution by Source]........................................................................
+ 96.46%   96.54%         C2, level 4
+  2.79%    2.58%   [kernel.kallsyms]
+  0.43%    0.50%           libjvm.so
+  0.16%    0.29%        libc-2.23.so
+  0.12%    0.02%      hsdis-amd64.so
+  0.03%    0.01%         interpreter
+....................................................................................................
+ 99.99%   99.99%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfStringBenchmark.indexOfString
+# Parameters: (targetString = s)
+
+# Run progress: 50.00% complete, ETA 00:01:09
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 6.769 ns/op
+# Warmup Iteration   2: 6.674 ns/op
+# Warmup Iteration   3: 6.232 ns/op
+# Warmup Iteration   4: 6.255 ns/op
+# Warmup Iteration   5: 6.139 ns/op
+Iteration   1: 6.262 ns/op
+Iteration   2: 6.073 ns/op
+Iteration   3: 6.300 ns/op
+Iteration   4: 6.140 ns/op
+Iteration   5: 6.119 ns/op
+Iteration   6: 6.127 ns/op
+Iteration   7: 6.065 ns/op
+Iteration   8: 6.276 ns/op
+Iteration   9: 6.201 ns/op
+Iteration  10: 6.133 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString":
+  6.170 ±(99.9%) 0.128 ns/op [Average]
+  (min, avg, max) = (6.065, 6.170, 6.300), stdev = 0.085
+  CI (99.9%): [6.041, 6.298] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString:·asm":
+PrintAssembly processed: 152136 total address lines.
+Perf output processed (skipped 6.451 seconds):
+ Column 1: cycles (10336 events)
+ Column 2: instructions (10335 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (51 bytes)
+
+                             0x00007f2b9920dec3: mov    0x18(%rsp),%eax
+                             0x00007f2b9920dec7: vmovdqu (%rsi),%xmm0
+                             0x00007f2b9920decb: sub    %rbx,%rdi
+                             0x00007f2b9920dece: shr    $0x1,%edi
+                             0x00007f2b9920ded1: add    %edi,%edx
+                             0x00007f2b9920ded3: dec    %edx
+                             0x00007f2b9920ded5: cmp    %eax,%edx
+                  ╭          0x00007f2b9920ded7: js     0x00007f2b9920df09
+                  │          0x00007f2b9920ded9: add    $0x2,%rbx
+                  │   ↗↗     0x00007f2b9920dedd: vpcmpestri $0xd,(%rbx),%xmm0
+ 26.82%   28.16%  │╭  ││     0x00007f2b9920dee3: jb     0x00007f2b9920df03
+                  ││  ││     0x00007f2b9920dee5: sub    $0x8,%edx
+                  ││╭ ││     0x00007f2b9920dee8: jle    0x00007f2b9920df09
+                  │││ ││     0x00007f2b9920deea: cmp    %eax,%edx
+                  │││╭││     0x00007f2b9920deec: js     0x00007f2b9920df09
+                  ││││││     0x00007f2b9920deee: add    $0x10,%rbx
+                  ││││││ ↗   0x00007f2b9920def2: cmp    $0x8,%edx
+                  ││││╰│ │   0x00007f2b9920def5: jge    0x00007f2b9920dedd
+                  ││││ │ │   0x00007f2b9920def7: lea    -0x10(%rbx,%rdx,2),%rbx
+                  ││││ │ │   0x00007f2b9920defc: mov    $0x8,%edx
+                  ││││ ╰ │   0x00007f2b9920df01: jmp    0x00007f2b9920dedd
+  3.80%    4.65%  │↘││   │   0x00007f2b9920df03: sub    %ecx,%edx
+  0.13%    0.19%  │ ││   │   0x00007f2b9920df05: cmp    %eax,%edx
+                  │ ││  ╭│   0x00007f2b9920df07: jge    0x00007f2b9920df10
+                  ↘ ↘↘  ││   0x00007f2b9920df09: mov    $0xffffffff,%ebx
+                        ││   0x00007f2b9920df0e: jmp    0x00007f2b9920df69
+  6.10%    8.74%        ↘│   0x00007f2b9920df10: lea    (%rbx,%rcx,2),%rbx
+  0.04%    0.09%         │   0x00007f2b9920df14: add    %eax,%ecx
+  0.23%    0.36%         │   0x00007f2b9920df16: cmp    $0x8,%ecx
+                         │   0x00007f2b9920df19: jle    0x00007f2b9920df63
+                         │   0x00007f2b9920df1b: cmp    $0x8,%eax
+                         ╰   0x00007f2b9920df1e: jle    0x00007f2b9920def2
+                             0x00007f2b9920df20: mov    %rbx,%rdi
+                             0x00007f2b9920df23: cmp    %eax,%ecx
+                          ╭  0x00007f2b9920df25: je     0x00007f2b9920df2f
+                          │  0x00007f2b9920df27: vpcmpestri $0xd,(%rdi),%xmm0
+                          │  0x00007f2b9920df2d: jno    0x00007f2b9920debe
+                          ↘  0x00007f2b9920df2f: sub    $0x8,%eax
+                             0x00007f2b9920df32: jle    0x00007f2b9920df5e
+....................................................................................................
+ 37.11%   42.19%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (98 bytes)
+
+                      0x00007f2b9920df3f: cmp    $0x8,%eax
+                  ╭   0x00007f2b9920df42: jge    0x00007f2b9920df58
+                  │   0x00007f2b9920df44: lea    -0x10(%rsi,%rax,2),%rsi
+                  │   0x00007f2b9920df49: lea    -0x10(%rdi,%rax,2),%rdi
+                  │   0x00007f2b9920df4e: sub    %eax,%edx
+                  │   0x00007f2b9920df50: mov    $0x8,%eax
+                  │   0x00007f2b9920df55: add    $0x8,%edx
+                  ↘   0x00007f2b9920df58: vmovdqu (%rsi),%xmm0
+                      0x00007f2b9920df5c: jmp    0x00007f2b9920df27
+                      0x00007f2b9920df5e: mov    0x8(%rsp),%rdi
+  3.94%    5.95%      0x00007f2b9920df63: sub    %rdi,%rbx
+  0.01%               0x00007f2b9920df66: shr    $0x1,%ebx
+  0.41%    0.76%      0x00007f2b9920df69: pop    %rsp
+  3.82%    6.43%      0x00007f2b9920df6a: mov    %ebx,%edx          ;*invokevirtual indexOf
+                                                                    ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                                                                    ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  0.06%    0.06%   ↗  0x00007f2b9920df6c: mov    0x38(%rsp),%rsi
+  3.37%    5.21%   │  0x00007f2b9920df71: xchg   %ax,%ax
+                   │  0x00007f2b9920df73: callq  0x00007f2b99046020  ; OopMap{[48]=Oop [56]=Oop [64]=Oop [0]=Oop off=824}
+                   │                                                ;*invokevirtual consume
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@20 (line 186)
+                   │                                                ;   {optimized virtual_call}
+  0.70%    0.57%   │  0x00007f2b9920df78: mov    (%rsp),%r10
+  3.27%    3.17%   │  0x00007f2b9920df7c: movzbl 0x94(%r10),%r11d   ;*getfield isDone
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@30 (line 188)
+                   │  0x00007f2b9920df84: add    $0x1,%rbp          ; OopMap{r10=Oop [48]=Oop [56]=Oop [64]=Oop [0]=Oop off=840}
+                   │                                                ;*ifeq
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@33 (line 188)
+  0.48%    0.19%   │  0x00007f2b9920df88: test   %eax,0x1707a072(%rip)        # 0x00007f2bb0288000
+                   │                                                ;   {poll}
+  0.02%    0.01%   │  0x00007f2b9920df8e: test   %r11d,%r11d
+                   │  0x00007f2b9920df91: jne    0x00007f2b9920de06  ;*aload
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@13 (line 186)
+  3.46%    2.31%   │  0x00007f2b9920df97: mov    0x40(%rsp),%r10
+                   │  0x00007f2b9920df9c: mov    0x10(%r10),%r10d   ;*getfield targetString
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@5 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  0.39%    0.18%   │  0x00007f2b9920dfa0: mov    0x40(%rsp),%r11
+  0.03%    0.01%   │  0x00007f2b9920dfa5: mov    0xc(%r11),%r11d    ;*getfield quote
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@1 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  3.12%    2.13%   │  0x00007f2b9920dfa9: mov    0xc(%r12,%r11,8),%r9d  ; implicit exception: dispatches to 0x00007f2b9920e009
+           0.01%   │  0x00007f2b9920dfae: mov    0xc(%r12,%r10,8),%r10d  ; implicit exception: dispatches to 0x00007f2b9920e01d
+  0.43%    0.10%   │  0x00007f2b9920dfb3: mov    0xc(%r12,%r10,8),%eax
+  0.20%    0.11%   │  0x00007f2b9920dfb8: mov    0xc(%r12,%r9,8),%edx
+  3.78%    1.22%   │  0x00007f2b9920dfbd: cmp    %edx,%eax
+                   │  0x00007f2b9920dfbf: jg     0x00007f2b9920de30
+  0.20%    0.20%   │  0x00007f2b9920dfc5: test   %eax,%eax
+                   │  0x00007f2b9920dfc7: jne    0x00007f2b9920de40  ;*invokevirtual indexOf
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   │  0x00007f2b9920dfcd: xor    %edx,%edx
+                   ╰  0x00007f2b9920dfcf: jmp    0x00007f2b9920df6c
+                      0x00007f2b9920dfd1: mov    $0xffffffff,%ebx
+                      0x00007f2b9920dfd6: jmpq   0x00007f2b9920ddd4
+                      0x00007f2b9920dfdb: xor    %ebx,%ebx
+                      0x00007f2b9920dfdd: jmpq   0x00007f2b9920ddd4
+                      0x00007f2b9920dfe2: mov    $0xfffffff6,%esi
+....................................................................................................
+ 27.68%   28.63%  <total for region 2>
+
+....[Hottest Region 3]..............................................................................
+C2, level 4, org.openjdk.jmh.infra.Blackhole::consume, version 456 (45 bytes)
+
+                     # parm0:    rdx       = int
+                     #           [sp+0x30]  (sp of caller)
+                     0x00007f2b99206e20: mov    0x8(%rsi),%r10d
+                     0x00007f2b99206e24: shl    $0x3,%r10
+                     0x00007f2b99206e28: cmp    %r10,%rax
+                     0x00007f2b99206e2b: jne    0x00007f2b99045e20  ;   {runtime_call}
+                     0x00007f2b99206e31: xchg   %ax,%ax
+                     0x00007f2b99206e34: nopl   0x0(%rax,%rax,1)
+                     0x00007f2b99206e3c: xchg   %ax,%ax
+                   [Verified Entry Point]
+  0.33%    0.71%     0x00007f2b99206e40: mov    %eax,-0x14000(%rsp)
+  3.51%    5.59%     0x00007f2b99206e47: push   %rbp
+  0.36%    0.49%     0x00007f2b99206e48: sub    $0x20,%rsp         ;*synchronization entry
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@-1 (line 378)
+  3.33%    5.09%     0x00007f2b99206e4c: mov    0xb0(%rsi),%r10d   ;*getfield i1
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@1 (line 378)
+                     0x00007f2b99206e53: mov    %edx,%r8d
+  0.35%    0.62%     0x00007f2b99206e56: xor    0xb8(%rsi),%r8d    ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@15 (line 380)
+  0.01%    0.07%     0x00007f2b99206e5d: mov    %edx,%r9d
+  3.45%    4.09%     0x00007f2b99206e60: xor    %r10d,%r9d         ;*ixor
+                                                                   ; - org.openjdk.jmh.infra.Blackhole::consume@12 (line 380)
+                     0x00007f2b99206e63: cmp    %r8d,%r9d
+                  ╭  0x00007f2b99206e66: je     0x00007f2b99206e74  ;*if_icmpne
+                  │                                                ; - org.openjdk.jmh.infra.Blackhole::consume@16 (line 380)
+  0.46%    0.45%  │  0x00007f2b99206e68: add    $0x20,%rsp
+  0.05%    0.02%  │  0x00007f2b99206e6c: pop    %rbp
+  3.50%    3.88%  │  0x00007f2b99206e6d: test   %eax,0x1708118d(%rip)        # 0x00007f2bb0288000
+                  │                                                ;   {poll_return}
+                  │  0x00007f2b99206e73: retq
+                  ↘  0x00007f2b99206e74: mov    %rsi,%rbp
+                     0x00007f2b99206e77: mov    %edx,(%rsp)
+                     0x00007f2b99206e7a: mov    %r9d,0x4(%rsp)
+                     0x00007f2b99206e7f: mov    %r8d,0x8(%rsp)
+                     0x00007f2b99206e84: mov    $0xffffff65,%esi
+                     0x00007f2b99206e89: xchg   %ax,%ax
+                     0x00007f2b99206e8b: callq  0x00007f2b990051a0  ; OopMap{rbp=Oop off=112}
+                                                                   ;*if_icmpne
+....................................................................................................
+ 15.35%   21.02%  <total for region 3>
+
+....[Hottest Regions]...............................................................................
+ 37.11%   42.19%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (51 bytes)
+ 27.68%   28.63%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (98 bytes)
+ 15.35%   21.02%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 456 (45 bytes)
+  8.37%    2.34%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (8 bytes)
+  8.12%    2.57%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478 (66 bytes)
+  2.10%    2.07%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.10%    0.18%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113 (97 bytes)
+  0.04%    0.02%   [kernel.kallsyms]  [unknown] (50 bytes)
+  0.04%               hsdis-amd64.so  oappend+0x16 (18 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (31 bytes)
+  0.03%    0.01%           libjvm.so  jio_print+0x72 (18 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (21 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (24 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (27 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.85%    0.89%  <...other 132 warm regions...>
+....................................................................................................
+ 99.99%  100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 81.28%   75.73%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 478
+ 15.35%   21.02%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 456
+  2.67%    2.43%   [kernel.kallsyms]  [unknown]
+  0.10%    0.18%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113
+  0.04%               hsdis-amd64.so  oappend+0x16
+  0.03%    0.01%           libjvm.so  jio_print+0x72
+  0.02%    0.03%        libc-2.23.so  _IO_default_xsputn+0x4b
+  0.02%                    libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x160
+  0.02%                 libc-2.23.so  __strchr_sse2+0x23
+  0.02%    0.03%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x3a
+  0.02%    0.02%           libjvm.so  _ZN10fileStream5writeEPKcm+0x0
+  0.02%           libpthread-2.23.so  pthread_getspecific+0xf
+  0.01%               hsdis-amd64.so  print_insn+0x8f9
+  0.01%                    libjvm.so  _ZN12outputStream12do_vsnprintfEPcmPKcP13__va_list_tagbRm+0xf
+  0.01%    0.03%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x82
+  0.01%    0.02%        libc-2.23.so  _IO_fwrite+0x53
+  0.01%    0.02%        libc-2.23.so  _IO_fwrite+0x136
+  0.01%                    libjvm.so  _ZN16LIR_OpVisitState5visitEP6LIR_Op+0x8e
+  0.01%                    libjvm.so  _ZN7nmethod21print_code_comment_onEP12outputStreamiPhS2_+0x73
+  0.01%                 libc-2.23.so  vfprintf+0x7fd
+  0.33%    0.10%  <...other 34 warm methods...>
+....................................................................................................
+ 99.99%   99.61%  <totals>
+
+....[Distribution by Source]........................................................................
+ 96.63%   96.75%         C2, level 4
+  2.67%    2.43%   [kernel.kallsyms]
+  0.39%    0.45%           libjvm.so
+  0.21%    0.33%        libc-2.23.so
+  0.07%    0.04%      hsdis-amd64.so
+  0.02%           libpthread-2.23.so
+....................................................................................................
+ 99.99%  100.00%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfStringBenchmark.indexOfString
+# Parameters: (targetString = y)
+
+# Run progress: 62.50% complete, ETA 00:00:51
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 12.149 ns/op
+# Warmup Iteration   2: 11.822 ns/op
+# Warmup Iteration   3: 11.458 ns/op
+# Warmup Iteration   4: 11.455 ns/op
+# Warmup Iteration   5: 11.425 ns/op
+Iteration   1: 11.519 ns/op
+Iteration   2: 11.443 ns/op
+Iteration   3: 11.497 ns/op
+Iteration   4: 11.498 ns/op
+Iteration   5: 11.529 ns/op
+Iteration   6: 11.553 ns/op
+Iteration   7: 11.264 ns/op
+Iteration   8: 11.163 ns/op
+Iteration   9: 11.240 ns/op
+Iteration  10: 11.282 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString":
+  11.399 ±(99.9%) 0.219 ns/op [Average]
+  (min, avg, max) = (11.163, 11.399, 11.553), stdev = 0.145
+  CI (99.9%): [11.180, 11.618] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString:·asm":
+PrintAssembly processed: 151180 total address lines.
+Perf output processed (skipped 6.401 seconds):
+ Column 1: cycles (10369 events)
+ Column 2: instructions (10360 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (57 bytes)
+
+                             0x00007fce2d20567e: mov    0x10(%rsp),%rsi
+                             0x00007fce2d205683: mov    0x18(%rsp),%eax
+                             0x00007fce2d205687: vmovdqu (%rsi),%xmm0
+                             0x00007fce2d20568b: sub    %rbx,%rdi
+                             0x00007fce2d20568e: shr    $0x1,%edi
+                             0x00007fce2d205691: add    %edi,%edx
+                             0x00007fce2d205693: dec    %edx
+                             0x00007fce2d205695: cmp    %eax,%edx
+                  ╭          0x00007fce2d205697: js     0x00007fce2d2056c9
+                  │          0x00007fce2d205699: add    $0x2,%rbx
+  0.01%           │   ↗↗     0x00007fce2d20569d: vpcmpestri $0xd,(%rbx),%xmm0
+ 39.73%   41.75%  │╭  ││     0x00007fce2d2056a3: jb     0x00007fce2d2056c3
+  8.43%   12.68%  ││  ││     0x00007fce2d2056a5: sub    $0x8,%edx
+                  ││╭ ││     0x00007fce2d2056a8: jle    0x00007fce2d2056c9
+                  │││ ││     0x00007fce2d2056aa: cmp    %eax,%edx
+  4.22%    1.73%  │││╭││     0x00007fce2d2056ac: js     0x00007fce2d2056c9
+                  ││││││     0x00007fce2d2056ae: add    $0x10,%rbx
+  4.28%    3.90%  ││││││ ↗   0x00007fce2d2056b2: cmp    $0x8,%edx
+                  ││││╰│ │   0x00007fce2d2056b5: jge    0x00007fce2d20569d
+                  ││││ │ │   0x00007fce2d2056b7: lea    -0x10(%rbx,%rdx,2),%rbx
+                  ││││ │ │   0x00007fce2d2056bc: mov    $0x8,%edx
+                  ││││ ╰ │   0x00007fce2d2056c1: jmp    0x00007fce2d20569d
+  2.36%    0.43%  │↘││   │   0x00007fce2d2056c3: sub    %ecx,%edx
+  0.13%    0.02%  │ ││   │   0x00007fce2d2056c5: cmp    %eax,%edx
+                  │ ││  ╭│   0x00007fce2d2056c7: jge    0x00007fce2d2056d0
+                  ↘ ↘↘  ││   0x00007fce2d2056c9: mov    $0xffffffff,%ebx
+                        ││   0x00007fce2d2056ce: jmp    0x00007fce2d205729
+  2.06%    0.40%        ↘│   0x00007fce2d2056d0: lea    (%rbx,%rcx,2),%rbx
+                         │   0x00007fce2d2056d4: add    %eax,%ecx
+  0.05%    0.03%         │   0x00007fce2d2056d6: cmp    $0x8,%ecx
+                         │   0x00007fce2d2056d9: jle    0x00007fce2d205723
+                         │   0x00007fce2d2056db: cmp    $0x8,%eax
+                         ╰   0x00007fce2d2056de: jle    0x00007fce2d2056b2
+                             0x00007fce2d2056e0: mov    %rbx,%rdi
+                             0x00007fce2d2056e3: cmp    %eax,%ecx
+                          ╭  0x00007fce2d2056e5: je     0x00007fce2d2056ef
+                          │  0x00007fce2d2056e7: vpcmpestri $0xd,(%rdi),%xmm0
+                          │  0x00007fce2d2056ed: jno    0x00007fce2d20567e
+                          ↘  0x00007fce2d2056ef: sub    $0x8,%eax
+                             0x00007fce2d2056f2: jle    0x00007fce2d20571e
+....................................................................................................
+ 61.28%   60.94%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (98 bytes)
+
+                      0x00007fce2d2056ff: cmp    $0x8,%eax
+                  ╭   0x00007fce2d205702: jge    0x00007fce2d205718
+                  │   0x00007fce2d205704: lea    -0x10(%rsi,%rax,2),%rsi
+                  │   0x00007fce2d205709: lea    -0x10(%rdi,%rax,2),%rdi
+                  │   0x00007fce2d20570e: sub    %eax,%edx
+                  │   0x00007fce2d205710: mov    $0x8,%eax
+                  │   0x00007fce2d205715: add    $0x8,%edx
+                  ↘   0x00007fce2d205718: vmovdqu (%rsi),%xmm0
+                      0x00007fce2d20571c: jmp    0x00007fce2d2056e7
+                      0x00007fce2d20571e: mov    0x8(%rsp),%rdi
+  1.98%    0.21%      0x00007fce2d205723: sub    %rdi,%rbx
+                      0x00007fce2d205726: shr    $0x1,%ebx
+  0.05%    0.04%      0x00007fce2d205729: pop    %rsp
+  2.10%    0.23%      0x00007fce2d20572a: mov    %ebx,%edx          ;*invokevirtual indexOf
+                                                                    ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                                                                    ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   ↗  0x00007fce2d20572c: mov    0x38(%rsp),%rsi
+  1.72%    4.33%   │  0x00007fce2d205731: xchg   %ax,%ax
+                   │  0x00007fce2d205733: callq  0x00007fce2d046020  ; OopMap{[48]=Oop [56]=Oop [64]=Oop [0]=Oop off=824}
+                   │                                                ;*invokevirtual consume
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@20 (line 186)
+                   │                                                ;   {optimized virtual_call}
+  0.42%    0.34%   │  0x00007fce2d205738: mov    (%rsp),%r10
+  1.93%    0.08%   │  0x00007fce2d20573c: movzbl 0x94(%r10),%r11d   ;*getfield isDone
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@30 (line 188)
+                   │  0x00007fce2d205744: add    $0x1,%rbp          ; OopMap{r10=Oop [48]=Oop [56]=Oop [64]=Oop [0]=Oop off=840}
+                   │                                                ;*ifeq
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@33 (line 188)
+  0.15%    0.16%   │  0x00007fce2d205748: test   %eax,0x161588b2(%rip)        # 0x00007fce4335e000
+                   │                                                ;   {poll}
+                   │  0x00007fce2d20574e: test   %r11d,%r11d
+                   │  0x00007fce2d205751: jne    0x00007fce2d2055c6  ;*aload
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@13 (line 186)
+  1.89%    0.96%   │  0x00007fce2d205757: mov    0x40(%rsp),%r10
+                   │  0x00007fce2d20575c: mov    0x10(%r10),%r10d   ;*getfield targetString
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@5 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  0.23%    0.19%   │  0x00007fce2d205760: mov    0x40(%rsp),%r11
+                   │  0x00007fce2d205765: mov    0xc(%r11),%r11d    ;*getfield quote
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@1 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  2.03%    4.56%   │  0x00007fce2d205769: mov    0xc(%r12,%r11,8),%r9d  ; implicit exception: dispatches to 0x00007fce2d2057c9
+  0.02%    0.05%   │  0x00007fce2d20576e: mov    0xc(%r12,%r10,8),%r10d  ; implicit exception: dispatches to 0x00007fce2d2057dd
+  0.27%    0.23%   │  0x00007fce2d205773: mov    0xc(%r12,%r10,8),%eax
+  0.14%    0.22%   │  0x00007fce2d205778: mov    0xc(%r12,%r9,8),%edx
+  2.11%    2.55%   │  0x00007fce2d20577d: cmp    %edx,%eax
+                   │  0x00007fce2d20577f: jg     0x00007fce2d2055f0
+  0.18%    0.17%   │  0x00007fce2d205785: test   %eax,%eax
+                   │  0x00007fce2d205787: jne    0x00007fce2d205600  ;*invokevirtual indexOf
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   │  0x00007fce2d20578d: xor    %edx,%edx
+                   ╰  0x00007fce2d20578f: jmp    0x00007fce2d20572c
+                      0x00007fce2d205791: mov    $0xffffffff,%ebx
+                      0x00007fce2d205796: jmpq   0x00007fce2d205594
+                      0x00007fce2d20579b: xor    %ebx,%ebx
+                      0x00007fce2d20579d: jmpq   0x00007fce2d205594
+                      0x00007fce2d2057a2: mov    $0xfffffff6,%esi
+....................................................................................................
+ 15.22%   14.32%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 61.28%   60.94%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (57 bytes)
+ 15.22%   14.32%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (98 bytes)
+  8.74%   10.96%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 456 (51 bytes)
+  6.78%    6.10%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (8 bytes)
+  4.41%    4.19%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476 (66 bytes)
+  2.03%    2.02%   [kernel.kallsyms]  [unknown] (5 bytes)
+  0.09%    0.09%   [kernel.kallsyms]  [unknown] (3 bytes)
+  0.09%    0.01%   [kernel.kallsyms]  [unknown] (11 bytes)
+  0.07%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.05%    0.09%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113 (102 bytes)
+  0.04%    0.04%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.04%    0.01%   [kernel.kallsyms]  [unknown] (27 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (11 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.07%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20 (36 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%    0.03%   [kernel.kallsyms]  [unknown] (22 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.97%    1.09%  <...other 158 warm regions...>
+....................................................................................................
+ 99.97%  100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 87.68%   85.55%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 476
+  8.74%   10.96%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 456
+  2.77%    2.72%   [kernel.kallsyms]  [unknown]
+  0.05%    0.09%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x113
+  0.03%    0.07%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20
+  0.02%                    libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x160
+  0.02%               hsdis-amd64.so  oappend+0x25
+  0.02%                 libc-2.23.so  vfprintf+0x0
+  0.02%                 libc-2.23.so  _IO_vsnprintf+0x2
+  0.02%                 libc-2.23.so  _IO_file_xsputn@@GLIBC_2.2.5+0x38
+  0.02%    0.01%           libjvm.so  _ZN7Monitor6unlockEv+0x2e
+  0.02%           libpthread-2.23.so  __pthread_enable_asynccancel+0x1f
+  0.02%           libpthread-2.23.so  __pthread_disable_asynccancel+0x22
+  0.02%    0.01%        libc-2.23.so  _IO_str_init_static_internal+0x7
+  0.02%                 libc-2.23.so  __strcpy_sse2_unaligned+0x2b7
+  0.01%                 libc-2.23.so  vfprintf+0x4d3
+  0.01%                 libc-2.23.so  __strncpy_sse2_unaligned+0x0
+  0.01%               hsdis-amd64.so  oappend+0x0
+  0.01%                 libc-2.23.so  vfprintf+0xad2
+  0.01%    0.01%        libc-2.23.so  vfprintf+0x2a7
+  0.46%    0.16%  <...other 48 warm methods...>
+....................................................................................................
+ 99.97%   99.58%  <totals>
+
+....[Distribution by Source]........................................................................
+ 96.42%   96.51%         C2, level 4
+  2.77%    2.72%   [kernel.kallsyms]
+  0.30%    0.43%           libjvm.so
+  0.30%    0.27%        libc-2.23.so
+  0.09%    0.06%      hsdis-amd64.so
+  0.05%    0.01%  libpthread-2.23.so
+  0.03%                  interpreter
+  0.01%
+  0.01%                  C1, level 3
+....................................................................................................
+ 99.97%  100.00%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfStringBenchmark.indexOfString
+# Parameters: (targetString = .)
+
+# Run progress: 75.00% complete, ETA 00:00:34
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 19.328 ns/op
+# Warmup Iteration   2: 19.538 ns/op
+# Warmup Iteration   3: 18.906 ns/op
+# Warmup Iteration   4: 18.893 ns/op
+# Warmup Iteration   5: 18.984 ns/op
+Iteration   1: 19.040 ns/op
+Iteration   2: 18.891 ns/op
+Iteration   3: 19.362 ns/op
+Iteration   4: 18.959 ns/op
+Iteration   5: 18.904 ns/op
+Iteration   6: 19.545 ns/op
+Iteration   7: 18.915 ns/op
+Iteration   8: 19.023 ns/op
+Iteration   9: 19.113 ns/op
+Iteration  10: 18.911 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString":
+  19.066 ±(99.9%) 0.333 ns/op [Average]
+  (min, avg, max) = (18.891, 19.066, 19.545), stdev = 0.220
+  CI (99.9%): [18.733, 19.399] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString:·asm":
+PrintAssembly processed: 144809 total address lines.
+Perf output processed (skipped 6.426 seconds):
+ Column 1: cycles (10206 events)
+ Column 2: instructions (10198 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (49 bytes)
+
+                            0x00007fbf48361383: mov    0x18(%rsp),%eax
+                            0x00007fbf48361387: vmovdqu (%rsi),%xmm0
+                            0x00007fbf4836138b: sub    %rbx,%rdi
+                            0x00007fbf4836138e: shr    $0x1,%edi
+                            0x00007fbf48361391: add    %edi,%edx
+                            0x00007fbf48361393: dec    %edx
+                            0x00007fbf48361395: cmp    %eax,%edx
+                  ╭         0x00007fbf48361397: js     0x00007fbf483613c9
+                  │         0x00007fbf48361399: add    $0x2,%rbx
+                  │   ↗↗    0x00007fbf4836139d: vpcmpestri $0xd,(%rbx),%xmm0
+ 43.47%   40.39%  │╭  ││    0x00007fbf483613a3: jb     0x00007fbf483613c3
+  7.01%    8.33%  ││  ││    0x00007fbf483613a5: sub    $0x8,%edx
+                  ││╭ ││    0x00007fbf483613a8: jle    0x00007fbf483613c9
+                  │││ ││    0x00007fbf483613aa: cmp    %eax,%edx
+  5.20%    6.82%  │││╭││    0x00007fbf483613ac: js     0x00007fbf483613c9
+                  ││││││    0x00007fbf483613ae: add    $0x10,%rbx
+  7.42%    5.52%  ││││││ ↗  0x00007fbf483613b2: cmp    $0x8,%edx
+                  ││││╰│ │  0x00007fbf483613b5: jge    0x00007fbf4836139d
+                  ││││ │ │  0x00007fbf483613b7: lea    -0x10(%rbx,%rdx,2),%rbx
+                  ││││ │ │  0x00007fbf483613bc: mov    $0x8,%edx
+                  ││││ ╰ │  0x00007fbf483613c1: jmp    0x00007fbf4836139d
+  0.26%    0.18%  │↘││   │  0x00007fbf483613c3: sub    %ecx,%edx
+                  │ ││   │  0x00007fbf483613c5: cmp    %eax,%edx
+                  │ ││  ╭│  0x00007fbf483613c7: jge    0x00007fbf483613d0
+                  ↘ ↘↘  ││  0x00007fbf483613c9: mov    $0xffffffff,%ebx
+                        ││  0x00007fbf483613ce: jmp    0x00007fbf48361429
+  1.92%    2.71%        ↘│  0x00007fbf483613d0: lea    (%rbx,%rcx,2),%rbx
+           0.02%         │  0x00007fbf483613d4: add    %eax,%ecx
+                         │  0x00007fbf483613d6: cmp    $0x8,%ecx
+                         │  0x00007fbf483613d9: jle    0x00007fbf48361423
+                         │  0x00007fbf483613db: cmp    $0x8,%eax
+                         ╰  0x00007fbf483613de: jle    0x00007fbf483613b2
+                            0x00007fbf483613e0: mov    %rbx,%rdi
+                            0x00007fbf483613e3: cmp    %eax,%ecx
+                            0x00007fbf483613e5: je     0x00007fbf483613ef
+                            0x00007fbf483613e7: vpcmpestri $0xd,(%rdi),%xmm0
+                            0x00007fbf483613ed: jno    0x00007fbf4836137e
+                            0x00007fbf483613ef: sub    $0x8,%eax
+....................................................................................................
+ 65.29%   63.97%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (98 bytes)
+
+                      0x00007fbf483613ff: cmp    $0x8,%eax
+                  ╭   0x00007fbf48361402: jge    0x00007fbf48361418
+                  │   0x00007fbf48361404: lea    -0x10(%rsi,%rax,2),%rsi
+                  │   0x00007fbf48361409: lea    -0x10(%rdi,%rax,2),%rdi
+                  │   0x00007fbf4836140e: sub    %eax,%edx
+                  │   0x00007fbf48361410: mov    $0x8,%eax
+                  │   0x00007fbf48361415: add    $0x8,%edx
+                  ↘   0x00007fbf48361418: vmovdqu (%rsi),%xmm0
+                      0x00007fbf4836141c: jmp    0x00007fbf483613e7
+                      0x00007fbf4836141e: mov    0x8(%rsp),%rdi
+  1.20%    1.68%      0x00007fbf48361423: sub    %rdi,%rbx
+                      0x00007fbf48361426: shr    $0x1,%ebx
+  0.10%    0.10%      0x00007fbf48361429: pop    %rsp
+  1.31%    1.45%      0x00007fbf4836142a: mov    %ebx,%edx          ;*invokevirtual indexOf
+                                                                    ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                                                                    ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   ↗  0x00007fbf4836142c: mov    0x38(%rsp),%rsi
+  1.21%    1.43%   │  0x00007fbf48361431: xchg   %ax,%ax
+                   │  0x00007fbf48361433: callq  0x00007fbf481b1020  ; OopMap{[48]=Oop [56]=Oop [64]=Oop [0]=Oop off=824}
+                   │                                                ;*invokevirtual consume
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@20 (line 186)
+                   │                                                ;   {optimized virtual_call}
+  6.81%    5.73%   │  0x00007fbf48361438: mov    (%rsp),%r10
+  0.12%    0.08%   │  0x00007fbf4836143c: movzbl 0x94(%r10),%r11d   ;*getfield isDone
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@30 (line 188)
+  0.35%    0.45%   │  0x00007fbf48361444: add    $0x1,%rbp          ; OopMap{r10=Oop [48]=Oop [56]=Oop [64]=Oop [0]=Oop off=840}
+                   │                                                ;*ifeq
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@33 (line 188)
+  0.96%    0.99%   │  0x00007fbf48361448: test   %eax,0x15e31bb2(%rip)        # 0x00007fbf5e193000
+                   │                                                ;   {poll}
+                   │  0x00007fbf4836144e: test   %r11d,%r11d
+                   │  0x00007fbf48361451: jne    0x00007fbf483612c6  ;*aload
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@13 (line 186)
+  0.24%    0.12%   │  0x00007fbf48361457: mov    0x40(%rsp),%r10
+                   │  0x00007fbf4836145c: mov    0x10(%r10),%r10d   ;*getfield targetString
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@5 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  1.12%    1.02%   │  0x00007fbf48361460: mov    0x40(%rsp),%r11
+                   │  0x00007fbf48361465: mov    0xc(%r11),%r11d    ;*getfield quote
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@1 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  0.23%    0.20%   │  0x00007fbf48361469: mov    0xc(%r12,%r11,8),%r9d  ; implicit exception: dispatches to 0x00007fbf483614c9
+  1.62%    1.12%   │  0x00007fbf4836146e: mov    0xc(%r12,%r10,8),%r10d  ; implicit exception: dispatches to 0x00007fbf483614dd
+  0.15%    0.19%   │  0x00007fbf48361473: mov    0xc(%r12,%r10,8),%eax
+  4.48%    4.14%   │  0x00007fbf48361478: mov    0xc(%r12,%r9,8),%edx
+  1.24%    1.72%   │  0x00007fbf4836147d: cmp    %edx,%eax
+                   │  0x00007fbf4836147f: jg     0x00007fbf483612f0
+  1.17%    1.44%   │  0x00007fbf48361485: test   %eax,%eax
+                   │  0x00007fbf48361487: jne    0x00007fbf48361300  ;*invokevirtual indexOf
+                   │                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                   │                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   │  0x00007fbf4836148d: xor    %edx,%edx
+                   ╰  0x00007fbf4836148f: jmp    0x00007fbf4836142c
+                      0x00007fbf48361491: mov    $0xffffffff,%ebx
+                      0x00007fbf48361496: jmpq   0x00007fbf48361294
+                      0x00007fbf4836149b: xor    %ebx,%ebx
+                      0x00007fbf4836149d: jmpq   0x00007fbf48361294
+                      0x00007fbf483614a2: mov    $0xfffffff6,%esi
+....................................................................................................
+ 22.29%   21.84%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 65.29%   63.97%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (49 bytes)
+ 22.29%   21.84%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (98 bytes)
+  5.19%    5.86%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 437 (45 bytes)
+  2.64%    4.16%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (34 bytes)
+  2.58%    2.26%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458 (8 bytes)
+  0.44%    0.43%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.14%    0.14%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.08%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.04%    0.02%   [kernel.kallsyms]  [unknown] (56 bytes)
+  0.04%    0.02%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20 (25 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.01%   [kernel.kallsyms]  [unknown] (12 bytes)
+  0.03%    0.02%   [kernel.kallsyms]  [unknown] (23 bytes)
+  0.03%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x82 (33 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (21 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (17 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (27 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  1.05%    1.18%  <...other 169 warm regions...>
+....................................................................................................
+100.00%  100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 92.79%   92.22%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 458
+  5.19%    5.86%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 437
+  1.31%    1.11%   [kernel.kallsyms]  [unknown]
+  0.04%    0.02%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20
+  0.03%    0.01%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x82
+  0.02%               hsdis-amd64.so  get_valid_dis386+0x6c7
+  0.02%    0.06%           libjvm.so  _ZN13xmlTextStream5writeEPKcm+0x2e
+  0.02%    0.02%  libpthread-2.23.so  pthread_getspecific+0x1d
+  0.02%    0.10%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x15a
+  0.02%               hsdis-amd64.so  print_operand_value+0x48
+  0.01%                    libjvm.so  _ZN10ValueStackC1EPS_NS_4KindEi+0x1eb
+  0.01%                    libjvm.so  _Z23resource_allocate_bytesmN17AllocFailStrategy13AllocFailEnumE+0x5e
+  0.01%                    libjvm.so  _ZN11CompileTask8log_taskEP9xmlStream+0x220
+  0.01%               hsdis-amd64.so  strcpy@plt+0x0
+  0.01%               hsdis-amd64.so  print_insn+0x8f9
+  0.01%                    libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x1a0
+  0.01%                 libc-2.23.so  __strncpy_sse2_unaligned+0x6d0
+  0.01%                 libc-2.23.so  vfprintf+0x1497
+  0.01%                 libc-2.23.so  __GI___printf_fp_l+0x4af
+  0.01%    0.01%        libc-2.23.so  _IO_fwrite+0x53
+  0.44%    0.06%  <...other 45 warm methods...>
+....................................................................................................
+100.00%   99.47%  <totals>
+
+....[Distribution by Source]........................................................................
+ 97.98%   98.09%         C2, level 4
+  1.31%    1.11%   [kernel.kallsyms]
+  0.36%    0.49%           libjvm.so
+  0.17%    0.22%        libc-2.23.so
+  0.11%    0.03%      hsdis-amd64.so
+  0.04%    0.07%  libpthread-2.23.so
+  0.01%                    libzip.so
+  0.01%                  interpreter
+  0.01%             Unknown, level 0
+....................................................................................................
+100.00%  100.00%  <totals>
+
+
+
+# JMH version: 1.19
+# VM version: JDK 1.8.0_111, VM 25.111-b14
+# VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.intrinsic.IndexOfStringBenchmark.indexOfString
+# Parameters: (targetString = p)
+
+# Run progress: 87.50% complete, ETA 00:00:17
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 26.213 ns/op
+# Warmup Iteration   2: 25.987 ns/op
+# Warmup Iteration   3: 25.328 ns/op
+# Warmup Iteration   4: 25.370 ns/op
+# Warmup Iteration   5: 24.353 ns/op
+Iteration   1: 24.549 ns/op
+Iteration   2: 24.764 ns/op
+Iteration   3: 24.518 ns/op
+Iteration   4: 24.517 ns/op
+Iteration   5: 24.970 ns/op
+Iteration   6: 24.609 ns/op
+Iteration   7: 24.558 ns/op
+Iteration   8: 24.563 ns/op
+Iteration   9: 24.771 ns/op
+Iteration  10: 24.812 ns/op
+# Processing profiler results: LinuxPerfAsmProfiler
+
+
+Result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString":
+  24.663 ±(99.9%) 0.235 ns/op [Average]
+  (min, avg, max) = (24.517, 24.663, 24.970), stdev = 0.155
+  CI (99.9%): [24.428, 24.898] (assumes normal distribution)
+
+Secondary result "org.example.intrinsic.IndexOfStringBenchmark.indexOfString:·asm":
+PrintAssembly processed: 148771 total address lines.
+Perf output processed (skipped 6.408 seconds):
+ Column 1: cycles (10273 events)
+ Column 2: instructions (10266 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (51 bytes)
+
+                            0x00007f93951fe72e: mov    0x10(%rsp),%rsi
+                            0x00007f93951fe733: mov    0x18(%rsp),%eax
+                            0x00007f93951fe737: vmovdqu (%rsi),%xmm0
+                            0x00007f93951fe73b: sub    %rbx,%rdi
+                            0x00007f93951fe73e: shr    $0x1,%edi
+                            0x00007f93951fe741: add    %edi,%edx
+                            0x00007f93951fe743: dec    %edx
+                            0x00007f93951fe745: cmp    %eax,%edx
+                  ╭         0x00007f93951fe747: js     0x00007f93951fe779
+                  │         0x00007f93951fe749: add    $0x2,%rbx
+  0.01%           │   ↗↗    0x00007f93951fe74d: vpcmpestri $0xd,(%rbx),%xmm0
+ 45.71%   43.99%  │╭  ││    0x00007f93951fe753: jb     0x00007f93951fe773
+  8.88%   11.00%  ││  ││    0x00007f93951fe755: sub    $0x8,%edx
+                  ││╭ ││    0x00007f93951fe758: jle    0x00007f93951fe779
+  0.01%           │││ ││    0x00007f93951fe75a: cmp    %eax,%edx
+  4.69%    6.34%  │││╭││    0x00007f93951fe75c: js     0x00007f93951fe779
+                  ││││││    0x00007f93951fe75e: add    $0x10,%rbx
+  8.78%    8.36%  ││││││ ↗  0x00007f93951fe762: cmp    $0x8,%edx
+                  ││││╰│ │  0x00007f93951fe765: jge    0x00007f93951fe74d
+                  ││││ │ │  0x00007f93951fe767: lea    -0x10(%rbx,%rdx,2),%rbx
+                  ││││ │ │  0x00007f93951fe76c: mov    $0x8,%edx
+                  ││││ ╰ │  0x00007f93951fe771: jmp    0x00007f93951fe74d
+  0.05%    0.02%  │↘││   │  0x00007f93951fe773: sub    %ecx,%edx
+           0.02%  │ ││   │  0x00007f93951fe775: cmp    %eax,%edx
+                  │ ││  ╭│  0x00007f93951fe777: jge    0x00007f93951fe780
+                  ↘ ↘↘  ││  0x00007f93951fe779: mov    $0xffffffff,%ebx
+                        ││  0x00007f93951fe77e: jmp    0x00007f93951fe7d9
+  1.90%    2.08%        ↘│  0x00007f93951fe780: lea    (%rbx,%rcx,2),%rbx
+                         │  0x00007f93951fe784: add    %eax,%ecx
+                         │  0x00007f93951fe786: cmp    $0x8,%ecx
+                         │  0x00007f93951fe789: jle    0x00007f93951fe7d3
+                         │  0x00007f93951fe78b: cmp    $0x8,%eax
+                         ╰  0x00007f93951fe78e: jle    0x00007f93951fe762
+                            0x00007f93951fe790: mov    %rbx,%rdi
+                            0x00007f93951fe793: cmp    %eax,%ecx
+                            0x00007f93951fe795: je     0x00007f93951fe79f
+                            0x00007f93951fe797: vpcmpestri $0xd,(%rdi),%xmm0
+                            0x00007f93951fe79d: jno    0x00007f93951fe72e
+....................................................................................................
+ 70.03%   71.81%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+C2, level 4, org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (94 bytes)
+
+                        0x00007f93951fe7af: cmp    $0x8,%eax
+                  ╭     0x00007f93951fe7b2: jge    0x00007f93951fe7c8
+                  │     0x00007f93951fe7b4: lea    -0x10(%rsi,%rax,2),%rsi
+                  │     0x00007f93951fe7b9: lea    -0x10(%rdi,%rax,2),%rdi
+                  │     0x00007f93951fe7be: sub    %eax,%edx
+                  │     0x00007f93951fe7c0: mov    $0x8,%eax
+                  │     0x00007f93951fe7c5: add    $0x8,%edx
+                  ↘     0x00007f93951fe7c8: vmovdqu (%rsi),%xmm0
+                        0x00007f93951fe7cc: jmp    0x00007f93951fe797
+                        0x00007f93951fe7ce: mov    0x8(%rsp),%rdi
+  1.11%    1.00%        0x00007f93951fe7d3: sub    %rdi,%rbx
+                        0x00007f93951fe7d6: shr    $0x1,%ebx
+                        0x00007f93951fe7d9: pop    %rsp
+  0.99%    0.60%        0x00007f93951fe7da: mov    %ebx,%edx          ;*invokevirtual indexOf
+                                                                      ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                                                                      ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                    ↗↗  0x00007f93951fe7dc: mov    0x38(%rsp),%rsi
+  0.92%    0.43%    ││  0x00007f93951fe7e1: xchg   %ax,%ax
+                    ││  0x00007f93951fe7e3: callq  0x00007f9395046020  ; OopMap{[48]=Oop [56]=Oop [64]=Oop [0]=Oop off=808}
+                    ││                                                ;*invokevirtual consume
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@20 (line 186)
+                    ││                                                ;   {optimized virtual_call}
+  8.52%    7.71%    ││  0x00007f93951fe7e8: mov    (%rsp),%r10
+                    ││  0x00007f93951fe7ec: movzbl 0x94(%r10),%r11d   ;*getfield isDone
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@30 (line 188)
+  0.01%             ││  0x00007f93951fe7f4: add    $0x1,%rbp          ; OopMap{r10=Oop [48]=Oop [56]=Oop [64]=Oop [0]=Oop off=824}
+                    ││                                                ;*ifeq
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@33 (line 188)
+  0.94%    0.84%    ││  0x00007f93951fe7f8: test   %eax,0x18360802(%rip)        # 0x00007f93ad55f000
+                    ││                                                ;   {poll}
+                    ││  0x00007f93951fe7fe: test   %r11d,%r11d
+                    ││  0x00007f93951fe801: jne    0x00007f93951fe686  ;*aload
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@13 (line 186)
+                    ││  0x00007f93951fe807: mov    0x40(%rsp),%r10
+                    ││  0x00007f93951fe80c: mov    0x10(%r10),%r10d   ;*getfield targetString
+                    ││                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@5 (line 53)
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+  0.93%    0.63%    ││  0x00007f93951fe810: mov    0x40(%rsp),%r11
+                    ││  0x00007f93951fe815: mov    0xc(%r11),%r11d    ;*getfield quote
+                    ││                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@1 (line 53)
+                    ││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                    ││  0x00007f93951fe819: mov    0xc(%r12,%r11,8),%r9d  ; implicit exception: dispatches to 0x00007f93951fe87d
+  0.52%    0.89%    ││  0x00007f93951fe81e: mov    0xc(%r12,%r10,8),%r10d  ; implicit exception: dispatches to 0x00007f93951fe891
+  0.38%    0.54%    ││  0x00007f93951fe823: mov    0xc(%r12,%r10,8),%eax
+  1.98%    2.29%    ││  0x00007f93951fe828: mov    0xc(%r12,%r9,8),%edx
+  0.50%    0.25%    ││  0x00007f93951fe82d: cmp    %edx,%eax
+                   ╭││  0x00007f93951fe82f: jg     0x00007f93951fe83d
+  0.55%    0.60%   │││  0x00007f93951fe831: test   %eax,%eax
+                   │││  0x00007f93951fe833: jne    0x00007f93951fe6b0  ;*invokevirtual indexOf
+                   │││                                                ; - org.example.intrinsic.IndexOfStringBenchmark::indexOfString@8 (line 53)
+                   │││                                                ; - org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub@17 (line 186)
+                   │││  0x00007f93951fe839: xor    %edx,%edx
+                   │╰│  0x00007f93951fe83b: jmp    0x00007f93951fe7dc
+                   ↘ │  0x00007f93951fe83d: mov    $0xffffffff,%edx
+                     ╰  0x00007f93951fe842: jmp    0x00007f93951fe7dc
+                        0x00007f93951fe844: mov    $0xffffffff,%ebx
+                        0x00007f93951fe849: jmpq   0x00007f93951fe654
+                        0x00007f93951fe84e: xor    %ebx,%ebx
+....................................................................................................
+ 17.36%   15.79%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 70.03%   71.81%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (51 bytes)
+ 17.36%   15.79%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (94 bytes)
+  5.55%    4.65%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 442 (51 bytes)
+  2.42%    4.23%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (66 bytes)
+  1.94%    0.87%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465 (8 bytes)
+  1.11%    1.10%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.09%    0.09%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.06%    0.15%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x124 (85 bytes)
+  0.04%    0.03%   [kernel.kallsyms]  [unknown] (4 bytes)
+  0.04%    0.02%   [kernel.kallsyms]  [unknown] (27 bytes)
+  0.04%    0.03%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20 (8 bytes)
+  0.04%           libpthread-2.23.so  [unknown] (0 bytes)
+  0.03%    0.03%   [kernel.kallsyms]  [unknown] (0 bytes)
+  0.03%    0.02%  libpthread-2.23.so  pthread_getspecific+0x0 (55 bytes)
+  0.02%    0.02%   [kernel.kallsyms]  [unknown] (28 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (10 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (25 bytes)
+  0.02%    0.01%   [kernel.kallsyms]  [unknown] (23 bytes)
+  0.02%            [kernel.kallsyms]  [unknown] (0 bytes)
+  1.12%    1.15%  <...other 171 warm regions...>
+....................................................................................................
+100.00%   99.99%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 91.75%   92.69%         C2, level 4  org.example.intrinsic.generated.IndexOfStringBenchmark_indexOfString_jmhTest::indexOfString_avgt_jmhStub, version 465
+  5.55%    4.65%         C2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 442
+  1.85%    1.88%   [kernel.kallsyms]  [unknown]
+  0.06%    0.15%           libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x124
+  0.04%           libpthread-2.23.so  [unknown]
+  0.04%    0.03%           libjvm.so  _ZN12outputStream15update_positionEPKcm+0x20
+  0.03%    0.02%  libpthread-2.23.so  pthread_getspecific+0x0
+  0.02%    0.04%        libc-2.23.so  _IO_fwrite+0x53
+  0.02%               hsdis-amd64.so  print_insn+0xde5
+  0.02%    0.02%           libjvm.so  _ZN10fileStream5writeEPKcm+0x40
+  0.02%    0.03%        libc-2.23.so  _IO_default_xsputn+0x39
+  0.02%    0.01%  libpthread-2.23.so  __pthread_disable_asynccancel+0x10
+  0.02%    0.01%      hsdis-amd64.so  oappend+0x23
+  0.02%                 libc-2.23.so  __strncpy_sse2_unaligned+0x4b1
+  0.01%               hsdis-amd64.so  print_insn+0xdd
+  0.01%                    libjvm.so  _ZN12outputStream5printEPKcz+0xbe
+  0.01%                 libc-2.23.so  __GI___mempcpy+0xd4
+  0.01%    0.01%        libc-2.23.so  strlen+0x2e
+  0.01%                    libjvm.so  _ZN13RelocIterator10initializeEP7nmethodPhS2_+0x1a0
+  0.01%                 libc-2.23.so  _IO_fflush+0x0
+  0.50%    0.09%  <...other 51 warm methods...>
+....................................................................................................
+100.00%   99.62%  <totals>
+
+....[Distribution by Source]........................................................................
+ 97.29%   97.34%         C2, level 4
+  1.85%    1.88%   [kernel.kallsyms]
+  0.34%    0.45%           libjvm.so
+  0.23%    0.24%        libc-2.23.so
+  0.16%    0.05%      hsdis-amd64.so
+  0.12%    0.03%  libpthread-2.23.so
+  0.01%                  interpreter
+....................................................................................................
+100.00%   99.99%  <totals>
+
+
+
+# Run complete. Total time: 00:02:17
+
+Benchmark                                  (targetChar)  (targetString)  Mode  Cnt   Score   Error  Units
+IndexOfCharBenchmark.indexOfChar                      s             N/A  avgt   10   3.933 ± 0.072  ns/op
+IndexOfCharBenchmark.indexOfChar:·asm                 s             N/A  avgt          NaN            ---
+IndexOfCharBenchmark.indexOfChar                      y             N/A  avgt   10   9.271 ± 0.184  ns/op
+IndexOfCharBenchmark.indexOfChar:·asm                 y             N/A  avgt          NaN            ---
+IndexOfCharBenchmark.indexOfChar                      .             N/A  avgt   10  28.130 ± 1.101  ns/op
+IndexOfCharBenchmark.indexOfChar:·asm                 .             N/A  avgt          NaN            ---
+IndexOfCharBenchmark.indexOfChar                      p             N/A  avgt   10  33.488 ± 0.297  ns/op
+IndexOfCharBenchmark.indexOfChar:·asm                 p             N/A  avgt          NaN            ---
+IndexOfStringBenchmark.indexOfString                N/A               s  avgt   10   6.170 ± 0.128  ns/op
+IndexOfStringBenchmark.indexOfString:·asm           N/A               s  avgt          NaN            ---
+IndexOfStringBenchmark.indexOfString                N/A               y  avgt   10  11.399 ± 0.219  ns/op
+IndexOfStringBenchmark.indexOfString:·asm           N/A               y  avgt          NaN            ---
+IndexOfStringBenchmark.indexOfString                N/A               .  avgt   10  19.066 ± 0.333  ns/op
+IndexOfStringBenchmark.indexOfString:·asm           N/A               .  avgt          NaN            ---
+IndexOfStringBenchmark.indexOfString                N/A               p  avgt   10  24.663 ± 0.235  ns/op
+IndexOfStringBenchmark.indexOfString:·asm           N/A               p  avgt          NaN            ---
