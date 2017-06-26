@@ -1,0 +1,4 @@
+Benchmark                             Mode  Cnt  Score   Error  Units
+DirectInliningBenchmark.directGet     avgt   10  1.831 ± 0.006  ns/op
+DirectInliningBenchmark.inlinedGet    avgt   10  1.845 ± 0.007  ns/op
+DirectInliningBenchmark.uninlinedGet  avgt   10  3.075 ± 0.018  ns/op
